@@ -2,6 +2,10 @@ from django.urls import path
 
 from . import views
 
+
+# polls 앱의 namespace 설정
+app_name = 'polls'
+
 urlpatterns = [
     # ex: /polls/
     path('', views.index, name='index'),

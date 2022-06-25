@@ -2,6 +2,7 @@
 View를 작성하는 스크립트 파일.
 """
 
+
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, Http404
 from django.template import loader
@@ -21,7 +22,7 @@ def index(request):
     # output = "<br>".join([q.question_text for q in latest_question_list])
     # print(output)
     # return HttpResponse(output)
-    
+
     # use template
     # template = loader.get_template('polls/index.html')
     # context = {'latest_question_list': latest_question_list}
