@@ -3,12 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Polls Detail</title>
+    <title>설문 상세</title>
 </head>
 
 <body>
-    <h1>{{ question.question_text }}</h1>
-
     <form action="{% url 'polls:vote' question_id=question.id%}" method="post">
         {% csrf_token %}
         <fieldset>
@@ -24,11 +22,7 @@
         <input type="submit" value="Vote">
     </form>
 
-    <ul>
-        {% for choice in question.choice_set.all %}
-        <li>{{ choice.choice_text }}</li>
-        {% endfor %}
-    </ul>
+    <a href="{% url 'polls:index' %}">Back</a>
 </body>
 
 </html>

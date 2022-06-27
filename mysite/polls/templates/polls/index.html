@@ -20,7 +20,7 @@
 
         {# url 템플릿 태그를 사용하는 경우 #}
         {# <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li> #}
-        <li><a href="{% url 'polls:detail' question_id=question.id %}">{{ question.question_text }}</a></li>
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 
         {% endfor %}
     </ul>
