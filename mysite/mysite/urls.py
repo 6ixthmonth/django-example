@@ -1,8 +1,8 @@
 """
-기본 URL 구성 파일.
+기본 URL 구성(URLconf) 파일.
 
- urlpatterns 변수를 통해 요청 URL과 이를 처리할 view를 설정할 수 있다.
-path() 함수에 요청 URL 문자열과 view 함수(또는 클래스)를 작성한다.
+urlpatterns 변수를 통해 요청 URL과 이를 처리할 view를 기록할 수 있다.
+path() 함수에 인식시킬 요청 URL 문자열 값과 이를 처리할 view 함수(또는 클래스)를 작성한다.
 
 하단의 링크를 통해 장고에서 요청을 처리하는 절차에 대해 자세히 확인할 수 있다.
 https://docs.djangoproject.com/en/4.0/topics/http/urls/

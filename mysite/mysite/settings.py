@@ -40,7 +40,9 @@ ALLOWED_HOSTS = []
 
 # 이하의 설정들은 애플리케이션 정의 관련 설정들이다.
 
-# INSTALLED_APPS: 이 프로젝트에 설치된 앱의 목록. 생성한 앱을 프로젝트에 적용시키려면 반드시 여기에 등록해야 한다.
+# INSTALLED_APPS: 이 프로젝트에 설치된 앱의 목록. 생성한 앱을 프로젝트에 적용시키려면 여기에 등록해야 한다.
+# 애플리케이션 구성에 대한 상세 내용.
+# https://docs.djangoproject.com/en/4.0/ref/applications/
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'django.contrib.admin',
@@ -63,14 +65,20 @@ MIDDLEWARE = [
 ]
 
 # ROOT_URLCONF: 요청 URL을 처리할 때 사용하기 위한, 가장 기본적인 URL 구성 파일의 위치.
+# 장고에서 요청을 처리하는 과정.
+# https://docs.djangoproject.com/en/4.0/topics/http/urls/#how-django-processes-a-request
 ROOT_URLCONF = 'mysite.urls'
 
 # TEMPLATES: 이 프로젝트에서 사용할 템플릿 엔진들의 목록. 각각의 항목들을 dict로 표현한 뒤 list로 묶어서 작성한다.
+#     BACKEND: 템플릿 엔진 이름. 기본 엔진으로 DjangoTemplates와 Jinja2가 제공된다.
+#     DIRS: 엔진이 템플릿 소스 파일(*.html 파일)을 찾는 경로.
+#     APP_DIRS: 설치된 애플리케이션 폴더 내부에서 템플릿 소스 파일을 찾을지 여부. 기본 값은 False다.
+#     OPTIONS: 기타 설정들. 각 템플릿 엔진마다 설정할 수 있는 값이 다르다.
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates', # 템플릿 엔진 이름. 기본 엔진으로 DjangoTemplates와 Jinja2가 제공된다.
-        'DIRS': [], # 엔진이 템플릿 소스 파일(*.html 파일)을 찾는 경로.
-        'APP_DIRS': True, # 설치된 애플리케이션 폴더 내부에서 템플릿 소스 파일을 찾을지 여부. 기본 값은 False다.
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -78,7 +86,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-        }, # 기타 설정들. 각 템플릿 엔진마다 설정할 수 있는 값이 다르다.
+        },
     },
 ]
 
@@ -89,11 +97,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # 이하의 설정들은 데이터베이스 관련 설정들이다. 이 프로젝트에서 사용할 데이터베이스에 대한 접속 정보 등을 설정할 수 있다.
 
-# DATABASES: 장고에서 사용되는 모든 데이터베이스 설정.
+# DATABASES: 장고에서 사용되는 모든 데이터베이스 설정. default 데이터베이스를 반드시 설정해야 하며 추가로 원하는만큼 더 설정할 수 있다.
+#     ENGINE: 사용할 데이터베이스 백엔드. 기본적으로 postgresql, mysql, sqlite3, oracle을 제공한다.
+#     NAME: 사용할 데이터베이스 이름.
+# 데이터베이스의 종류에 따라서 USER, PASSWORD, HOST, PORT 등의 정보를 요구할 수도 있다.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # 사용할 데이터베이스 백엔드. 기본적으로 postgresql, mysql, sqlite3, oracle을 제공한다.
-        'NAME': BASE_DIR / 'db.sqlite3', # 사용할 데이터베이스 이름.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -102,7 +113,7 @@ DATABASES = {
 # 비밀번호 검증 관련 설정.
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-# AUTH_PASSWORD_VALIDATORS: 설명
+# AUTH_PASSWORD_VALIDATORS: 사용자가 사용하는 비밀번호가 얼마나 강력한지 그 정도를 검사하는 검증기의 목록.
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
