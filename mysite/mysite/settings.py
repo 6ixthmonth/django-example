@@ -40,7 +40,7 @@ ALLOWED_HOSTS = []
 
 # 이하의 설정들은 애플리케이션 정의 관련 설정들이다.
 
-# INSTALLED_APPS: 이 프로젝트에 설치된 앱의 목록. 생성한 앱을 프로젝트에 적용시키려면 여기에 등록해야 한다.
+# INSTALLED_APPS: 이 프로젝트에 설치된 앱의 목록. 생성한 앱에 대한 마이그레이션을 적용시키려면 여기에 등록해야 한다.
 # 애플리케이션 구성에 대한 상세 내용.
 # https://docs.djangoproject.com/en/4.0/ref/applications/
 INSTALLED_APPS = [
