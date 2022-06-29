@@ -7,26 +7,142 @@
 # 주요 배경 이론 및 문법
 
 ## 데이터베이스 설정
-- settings.py 파일의 DATABASES 값을 사용해서 이 프로젝트에서 사용할 데이터베이스를 설정할 수 있다.
+- settings.py 파일의 DATABASES 옵션을 사용해서 이 프로젝트에서 사용할 데이터베이스를 설정할 수 있다.
 - 그밖에도 장고 프로젝트에서 데이터베이스를 연동할 때는 언어 설정, 시간대 등의 값을 다음과 같이 설정하길 권장한다.
   - LANGUAGE_CODE = 'ko-kr' => 언어 코드. 기본 값은 'en-us'. 관리자 화면 등에서 표시할 언어에 영향을 준다. 설정한 언어 코드를 적용시키려면 USE_I18N 옵션의 값을 True로 설정해야 한다.
   - TIME_ZONE = 'Asia/Seoul' => 서버가 가동되는 지역의 시간대. 기본 값은 'America/Chicago'. 필수는 아니지만 설정을 권장하며 특히 윈도우 환경에서는 더더욱 그러하다고 한다.
-  - USE_I18N = True => 장고에서 번역 시스템을 활성화시킬지 여부.
-  - USE_TZ = True => 장고에서 시간대를 반영한 datetime 객체를 사용할지 여부.
+  - USE_I18N = True => 장고에서 번역 시스템을 활성화시킬지 여부. 기본 값은 True.
+  - USE_TZ = True => 장고에서 시간대를 포함한(timezone-aware) datetime 객체를 사용할지 여부. 기본 값은 False.
 
-# 마이그레이션
+## 마이그레이션(Migration)
 - 앱의 설정 파일을 읽어서 필요한 데이터베이스 테이블을 자동으로 생성해주는 기능.
-- settings.py 파일의 INSTALLED_APPS 목록에 등록된 앱들에 대해서 실행되어, 해당 앱에 등록된 모델 설정에 따라 필요한 테이블을 자동으로 생성한다.
-- 올바르게 실행했다면 터미널에서 진행 상황이 출력되는 것을 확인할 수 있고, 또한 앱 폴더 내 migrations 폴더에 마이그레이션 기록 파일이 생성된 것을 확인할 수 있다.
+- settings.py 파일의 INSTALLED_APPS 목록에 등록된 앱들에 대해서 실행할 수 있으며, 해당 앱에 등록된 모델에 따라 필요한 테이블을 자동으로 생성한다.
 - (명령 프롬프트에서) python manage.py migrate [앱 이름] [마이그레이션 파일 이름]
+- 올바르게 실행했다면 터미널에서 진행 상황이 출력되는 것을 확인할 수 있고, 또한 앱 폴더 내 migrations 폴더에 마이그레이션 기록 파일이 생성된 것을 확인할 수 있다.
 - 앱 이름을 입력하지 않으면 INSTALLED_APPS 목록에 작성된 모든 앱에 대해서 작업을 실행한다.
-- 마이그레이션 파일 이름을 작성하지 않으면 가장 최신 파일에 대해서 작업을 실행한다.
+- 마이그레이션 파일 이름을 입력하지 않으면 최신 마이그레이션 파일에 대해서 작업을 실행한다.
 
-# 모델
-- 레코드를 표현하기 위한 클래스.
+## 모델(Model)
+- 데이터베이스의 레코드를 표현하기 위한 클래스. django.db.models.Model 클래스를 상속해서 구현한다.
+- 각각의 앱 폴더에 존재하는 models.py 파일에 작성한다.
+- 데이터베이스의 필드를 클래스 변수로 표현한다.
+- 마이그레이션을 실행하면 이 모델에 작성된 내용을 기준으로 데이터베이스의 테이블을 생성한다.
 
-# 마이그레이션 파일 생성
-- (명령 프롬프트에서) python manage.py makemigrations [앱 이름]
+## 필드 종류
+- 필드를 작성할 때 사용할 수 있는 주요 필드 클래스들은 다음과 같다.
+- IntegerField: 정수 필드. -2^31 ~ 2^31-1(-2147483648 ~ 2147483647) 사이의 값이 장고에서 지원하는 모든 데이터베이스에 대해서 안전하다.
+- BigIntegerField: 64비트의 정수 필드. IntegerField보다 더 큰 값을 저장할 때 사용한다.
+- FloatField: 실수 필드. 파이썬의 float 인스턴스로 표현된다.
+- DecimalField: 고정 소수점 실수 필드. 파이썬의 Decimal 인스턴스로 표현된다.
+- BooleanField: 논리 필드. 주로 체크박스 등의 형태로 입력받을 때 사용한다. default를 설정하지 않으면 의외로 None이 기본 값으로 설정된다.
 
-# SQL문 확인
+- CharField: 짧은 문자열을 나타내는 필드. max_length 옵션을 반드시 설정해야 한다.
+- TextField: 긴 문자열을 나타내는 필드. max_length 옵션을 설정할 수도 있다.
+
+- DateField: 날짜를 나타내는 필드. 파이썬의 datetime.date 인스턴스로 표현된다.
+- TimeField: 시간을 나타내는 필드. 파이썬의 datetime.time 인스턴스로 표현된다.
+- DateTimeField: 날짜와 시간을 나타내는 필드. 파이썬의 datetime.datetime 인스턴스로 표현된다.
+
+- FileField: 파일 업로드 시 사용되는 필드.
+- ImageField: FileField를 상속하여 이미지 파일 업로드에 특화된 필드.
+
+- EmailField: CharField를 상속하여 이메일 검증기 기능이 추가된 필드.
+- URLField: CharField를 상속하여 URL 검증기 기능이 추가된 필드.
+- FilePathField: CharField를 상속하여 파일 경로를 표현하는데 특화된 필드.
+
+- ForeignKey: 다대일 관계를 표현하는 대표적인 필드. 매칭시킬 클래스와 on_delete 옵션을 필수로 설정해야 한다.
+
+## 필드 옵션
+- 필드를 작성할 때 사용할 수 있는 주요 공용 옵션들. 필드를 정의할 때 키워드 인수로 입력하면 된다.
+- null: 기본 값은 False. 만약 True로 설정하면, 해당 필드에 빈 값이 들어왔을 때 데이터베이스에 null로 저장한다. 문자열 필드의 경우, null로 저장하기보다 빈 문자열('')로 저장하는 걸 권장한다.
+- blank: 기본 값은 False. 만약 True로 설정하면, 해당 필드에 빈 값이 들어오는 걸 허용한다.
+  - null과 blank의 다른 점은, null은 데이터베이스와 관련된 옵션이고 blank는 검증과 관련된 옵션이라는 점이다. blank=True면 데이터 검증 절차가 실행되지 않고 False면 필수 입력 값으로 설정된다.
+- default: 필드의 기본 값을 설정할 때 사용하는 옵션.
+- unique: 이 값을 True로 설정하면, 해당 필드의 값은 테이블에서 고유한 값이어야 한다(중복을 허용하지 않는다).
+- primary_key: 이 값을 True로 설정하면, 해당 필드는 모델의 pk가 된다. 
+  - 만약 모델에 pk 필드를 작성하지 않아도 장고는 자동으로 pk 필드를 생성해준다. apps.py 파일의 AppConfig.default_auto_field 옵션과 settings.py 파일의 DEFAULT_AUTO_FIELD 옵션에 따라 설정된다.
+  - primary_key=True로 설정되면 null=False 및 unique=True가 자동으로 적용된다.
+- db_column: 이 필드에 대한 데이터베이스의 컬럼명을 설정할 수 있다. 따로 설정하지 않으면, 데이터베이스의 컬럼명을 자동으로 이 필드명으로 설정한다.
+- verbose_name: 이 필드에 대한 별칭. 관리자 페이지에서 주로 표현된다. 따로 설정하지 않으면, 이 필드명에서 언더스코어를 공백으로 치환해서 설정한다.
+
+## 마이그레이션 파일 생성
+- 앱에 작성한 모델에 기반하여 마이그레이션할 때 사용할 파일을 만들 수 있다.
+- (명령 프롬프트에서) python manage.py makemigrations [앱 이름 [앱 이름 ...]]
+- 명령어를 실행하면 앱 폴더 내 migrations 폴더에 자동으로 번호를 붙여 파일을 생성한다. 장고에서는 이를 통해 마치 버전 관리 프로그램처럼 마이그레이션을 되돌리거나 적용시킬 수 있도록 지원한다.
+
+## SQL문 확인
+- 마이그레이션을 실행하기 전에, 마이그레이션 파일을 적용할 때 사용할 SQL문을 확인할 수 있다.
 - (명령 프롬프트에서) python manage.py sqlmigrate 앱_이름 마이그레이션_파일_이름
+- 사용하는 데이터베이스의 종류에 따라서 출력 결과가 달라질 수 있다.
+- 테이블 이름은 <앱 이름>_<lower(모델 이름)>으로 구성된다.
+- 기본 키 필드를 설정하지 않았다면, 'id' 필드로 자동으로 추가한다.
+- 외래 키 필드를 설정했다면, '<모델 이름>_id' 필드로 추가한다.
+
+## 마이그레이션 명령어 요약
+- migrate: 마이그레이션을 적용하는 명령어.
+  - (명령 프롬프트에서) python manage.py migrate [앱 이름] [마이그레이션 파일 이름]
+- makemigrations: 마이그레이션 파일을 생성하는 명령어.
+  - (명령 프롬프트에서) python manage.py makemigrations [앱 이름 [앱 이름 ...]]
+- sqlmigrate: 마이그레이션 할 때 사용할 SQL문을 조회할 때 사용하는 명령어.
+  - (명령 프롬프트에서) python manage.py sqlmigrate 앱_이름 마이그레이션_파일_이름
+- showmigrations: 모든 마이그레이션 목록을 조회할 때 사용하는 명령어.
+  - (명령 프롬프트에서) python manage.py showmigrations [앱 이름 [앱 이름 ...]]
+
+## 파이썬 쉘
+- settings.py 파일을 적용한 파이썬 쉘을 실행할 수 있다.
+- (명령 프롬프트에서) python manage.py shell
+
+## 데이터베이스 API
+- 마이그레이션 적용 후, 장고 프로젝트 설정이 적용된 파이썬 쉘에서 데이터베이스 조작을 할 수 있다.
+- 모델 클래스 불러온 후 사용할 것. >>> from <앱명>.models import <모델명>
+- 데이터 조회
+  - <모델명>.objects.all()  # 해당 모델로 만들어진 테이블에 존재하는 레코드를 모두 조회해서 QuerySet 객체로 리턴.
+    - User.objects.all()  # 모든 사용자 데이터 조회
+    - Board.objects.all()  # 모든 게시글 데이터 조회
+    - Reply.objects.all()  # 모든 댓글 데이터 조회
+  - <모델명>.objects.filter(<필드명>=값, ...)  # 조건을 일치하는 데이터를 모두 조회해서 QuerySet 객체로 리턴.
+    - User.objects.filter(user_id='test1')  # 사용자 ID가 'test1'인 사용자 데이터를 모두 조회.
+    - User.objects.filter(user_nm='테스터2')  # 사용자 이름이 '테스터2'인 사용자 데이터를 모두 조회.
+    - User.objects.filter(user_id='test2', user_nm='테스터1')  # 사용자 ID가 'test2'고, 사용자 이름이 '테스터1'인 데이터를 모두 조회.
+    - Board.objects.filter(board
+    - Board.objects.filter(board_title__startswith='게시글')  # 게시글 제목이 '게시글'로 시작하는 게시글 데이터를 모두 조회.
+    - Reply.objects.filter(reply_content__contains='테스트')  # 댓글 내용에 '테스트'가 포함되는 댓글 데이터를 모두 조회.
+  - <모델명>.objects.get(<필드명>=값, ...)  # 조건을 일치하는 데이터를 1개 조회해서 모델 객체로 리턴. 결과가 여러 개면 오류 발생.
+    - 
+- 데이터 생성
+  - <변수명> = <모델명>(필드명=값, ...)  # 아직 db에 반영 안됨
+- 데이터 변경
+  - <변수명>.<필드명> = 값  # 아직 db에 반영 안됨
+  - (변경할 대상).update()  # QuerySet 객체에 대해서만 실행 가능, 여러 개의 레코드를 일괄 변경 가능, 바로 db에 반영됨
+- 데이터 저장
+  - <변수명>.save()  # 생성 또는 변경한 데이터를 반영시킴
+- fk 데이터 조회
+  - <변수명>.<모델명>_set.all()
+  - <변수명>.<모델명>_set.filter()
+  - <변수명>.<모델명>_set.get()
+- fk 데이터 생성
+  - <변수명>.<모델명>_set.create(필드명=값, ...)
+- 삭제
+  - (삭제할 대상).delete()
+
+
+
+a__exact=1
+b__exact=None => is null
+__contains
+__startswith
+__endswith
+
+__in=[1, 2, 3]
+__gt
+__gte
+__lt
+__lte
+
+
+__range=(start, end)
+__date
+__year
+__month
+__day
+__week_day=1~7(sun~sat)
