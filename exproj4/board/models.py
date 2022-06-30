@@ -12,9 +12,12 @@ class Board(models.Model):
     board_title = models.CharField(max_length=50)  # 게시글 제목
     board_content = models.TextField(null=True, default='')  # 게시글 내용
     board_date = models.DateTimeField(default=timezone.now)  # 게시글 작성일
-    board_user = models.ForeignKey(User, on_delete=models.CASCADE)  # 게시글 작성자
+    board_user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)  # 게시글 작성자
 
     def __str__(self) -> str:
+        return f"{shorten(self.board_title, width=20, placeholder='...')}"
+
+    def __repr__(self) -> str:
         max_length:int = 0
         for key in vars(self).keys():
             max_length = len(key) if len(key) > max_length and not key.startswith("_") else max_length
@@ -34,10 +37,13 @@ class Reply(models.Model):
     """댓글 클래스"""
     reply_content = models.TextField()  # 댓글 내용
     reply_date = models.DateTimeField(default=timezone.now)  # 댓글 작성일
-    reply_user = models.ForeignKey(User, on_delete=models.CASCADE)  # 댓글 작성자
-    reply_board = models.ForeignKey(Board, on_delete=models.CASCADE)  # 원본 게시글
+    reply_user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)  # 댓글 작성자
+    reply_board = models.ForeignKey(Board, on_delete=models.CASCADE, editable=False)  # 원본 게시글
 
     def __str__(self) -> str:
+        return f"{shorten(self.reply_content, width=20, placeholder='...')}"
+
+    def __repr__(self) -> str:
         max_length:int = 0
         for key in vars(self).keys():
             max_length = len(key) if len(key) > max_length and not key.startswith("_") else max_length

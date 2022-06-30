@@ -8,4 +8,7 @@ class User(models.Model):
     user_nm = models.CharField(max_length=20)  # 사용자 이름
 
     def __str__(self) -> str:
+        return f"{self.user_nm}"
+
+    def __repr__(self) -> str:
         return f"{{ user_id: '{self.user_id}', user_nm: '{self.user_nm}' }}"
