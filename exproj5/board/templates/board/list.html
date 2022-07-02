@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>게시글 목록</title>
+</head>
+
+<body>
+    <h1>게시글 목록</h1>
+
+    {% if board_list %}
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        {% for board in board_list %}
+        <tr>
+            <td>{{ board.number }}</td>
+            <td><a href="/">{{ board.title }}</a></td>
+            <td>{{ board.user.nm }}</td>
+            <td>{{ board.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>게시글이 존재하지 않습니다.</p>
+    {% endif %}
+</body>
+
+</html>

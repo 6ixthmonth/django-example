@@ -1,9 +1,25 @@
 # 개요 및 목표
 
-이 프로젝트는 에 대해 다룬다.
+이 프로젝트는 템플릿에 대해 다룬다.
 올바르게 따라한다면 이 프로젝트와 유사한 결과물을 얻을 수 있다.
 
 
 # 주요 배경 이론 및 문법
+
+## 템플릿(template)
+- 정의
+- 앱 하위 폴더에 정의 가능(옵션 필요)
+  - <앱 이름>/<templates>/<앱 이름>/<템플릿 이름>.html
+
+## 템플릿 연결
+>>> template = loader.get_template('<템플릿 경로>.html')
+>>> context = {'변수명': <변수 값>,}
+>>> return HttpResponse(template.render(context, request))
+
+>>> return render(request, '<템플릿 경로>.html', context)
+
+## 요청 주소에 변수
+<자료형:변수명>
+path('<int:question_id>/', views.detail, name='detail')
 
 ## 

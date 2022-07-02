@@ -1,7 +1,11 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import Board, Reply
 
 
 def board_list(request):
     """게시글 목록 뷰 함수"""
 
-    return HttpResponse("게시글 목록")
+    context = {"board_list": Board.objects.order_by('-date')}
+
+    return render(request, 'board/list.html', context)

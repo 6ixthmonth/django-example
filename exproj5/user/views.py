@@ -1,28 +1,19 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+
+
+def home(request):
+    """홈 화면 이동"""
+
+    return render(request, 'user/home.html')
 
 
 def create_user(request):
     """사용자 등록 뷰 함수"""
 
-    return HttpResponse("사용자 등록 페이지")
+    return render(request, 'user/create.html')
 
 
 def user_form(request):
     """로그인 뷰 함수"""
 
-    context = "<h1>로그인 페이지</h1>"
-    context += "<table>"
-    context += "    <tr>"
-    context += "        <th>ID</th>"
-    context += "        <td><input type='text'></td>"
-    context += "    </tr>"
-    context += "    <tr>"
-    context += "        <th>비밀번호</th>"
-    context += "        <td><input type='password'></td>"
-    context += "    </tr>"
-    context += "    <tr>"
-    context += "        <td><input type='button' value='로그인'></td>"
-    context += "    </tr>"
-    context += "</table>"
-
-    return HttpResponse(context)
+    return render(request, 'user/form.html')
