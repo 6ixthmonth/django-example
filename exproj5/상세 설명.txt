@@ -6,20 +6,51 @@
 
 # 주요 배경 이론 및 문법
 
+## 뷰에 변수 전달하기
+- urls.py 파일의 path() 함수의 url 패턴에 자료형과 변수명을 추가한다.
+  - path('<int:question_id>/', views.detail, name='detail')
+- views.py 파일의 뷰 함수에 매개변수를 추가한다.
+  - def detail(request, question_id):
+  -     ...
+
 ## 템플릿(template)
-- 정의
-- 앱 하위 폴더에 정의 가능(옵션 필요)
-  - <앱 이름>/<templates>/<앱 이름>/<템플릿 이름>.html
+- 기본적으로 html 등의 텍스트 파일을 말한다. 브라우저 화면에 표시할 내용을 매번 뷰 함수에서 정의해서 응답하면 유지보수에 문제가 발생하기 때문에 별도의 파일을 작성해서 연결하는 게 보편적인 방법이다.
+- 장고에서는 여기에 추가로 템플릿 엔진을 탑재하여 템플릿 언어를 통해 조건문, 반복문 등 다양한 기능을 사용할 수 있다.
+- settings.py 파일의 TEMPLATES 옵션을 통해 적용하고자 하는 템플릿 백엔드를 변경하는 등 다양한 설정을 할 수 있다.
+- 템플릿 파일은 위의 옵션에서 지정한 폴더에 저장하거나 앱 하위 폴더에 작성한다.
+  - <앱 이름>/templates/<앱 이름>/<템플릿 이름>.html
 
-## 템플릿 연결
->>> template = loader.get_template('<템플릿 경로>.html')
->>> context = {'변수명': <변수 값>,}
->>> return HttpResponse(template.render(context, request))
+## 뷰 함수에서 템플릿 파일 연결
+from django.http import HttpResponse
+from django.template import loader
+template = loader.get_template('<템플릿 경로/템플릿 이름>.html')
+context = {'변수 이름': <변수 값>,}
+return HttpResponse(template.render(context, request))
+혹은
+from django.shortcuts import render
+...
+return render(request, '<템플릿 경로/템플릿 이름>.html', context)
 
->>> return render(request, '<템플릿 경로>.html', context)
+## 404 오류 처리
+from django.http import Http404
+...
+raise Http404("오류 메시지")
+혹은
+from django.shortcuts import get_object_or_404
+result = get_object_or_404(<모델명>)
 
-## 요청 주소에 변수
-<자료형:변수명>
-path('<int:question_id>/', views.detail, name='detail')
+## 템플릿 언어
+### 변수
+{{ <변수 이름>.<속성 이름> }}
+  - 사전, 속성 또는 메소드, 인덱스 순으로 탐색
+{{ 변수|필터 }}
 
-## 
+### 태그
+- {% 태그명 %}
+{% if %}
+{% for %}
+{% url %}
+
+### 주석
+- {# 주석 내용 #}
+- 화면에 표시 안됨

@@ -20,7 +20,7 @@
         {% for board in board_list %}
         <tr>
             <td>{{ board.number }}</td>
-            <td><a href="/">{{ board.title }}</a></td>
+            <td><a href="{% url 'board:detail' board_number=board.number %}">{{ board.title }}</a></td>
             <td>{{ board.user.nm }}</td>
             <td>{{ board.date }}</td>
         </tr>

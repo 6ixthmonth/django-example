@@ -7,10 +7,11 @@
 </head>
 
 <body>
-    <h1>게시판</h1>
+    <h1>게시판 예제 사이트</h1>
     <ul>
-        <li><a>사용자 등록</a></li>
-        <li><a>로그인</a></li>
+        <li><a href="{% url 'user:signup' %}">사용자 등록</a></li>
+        <li><a href="{% url 'user:signin' %}">로그인</a></li>
+        <li><a href="{% url 'board:list' %}">게시글 목록</a></li>
     </ul>
 </body>
 

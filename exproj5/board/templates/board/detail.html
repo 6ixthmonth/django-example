@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ board.title }}</title>
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th>{{ board.number }}</th>
+            <th>{{ board.title }}</th>
+            <th>{{ board.user.nm }}</th>
+            <th>{{ board.date }}</th>
+        </tr>
+        <tr>
+            <td colspan="4">{{ board.content }}</td>
+        </tr>
+    </table>
+
+    {% if reply_list %}
+    <table border="1">
+        {% for reply in reply_list %}
+        <tr>
+            <td>{{ reply.content }}</td>
+            <td>{{ reply.user.nm }}</td>
+            <td>{{ reply.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <a href="{% url 'board:list' %}">목록</a>
+</body>
+
+</html>
