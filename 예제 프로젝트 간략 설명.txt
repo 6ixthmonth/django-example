@@ -16,10 +16,13 @@ exproj4
 관리자 모드 예제 프로젝트.
 
 exproj5
-템플릿, 제네릭 뷰, 리다이렉트
+템플릿 예제 프로젝트.
+
 exproj6
-테스트
+제네릭 뷰, 리다이렉트
 exproj7
+테스트
+exproj8
 스태틱 파일
 
 myboard
