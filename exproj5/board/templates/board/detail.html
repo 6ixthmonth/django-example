@@ -15,9 +15,11 @@
             <th>{{ board.date }}</th>
         </tr>
         <tr>
-            <td colspan="4">{{ board.content }}</td>
+            <td colspan="4">{{ board.content|default_if_none:"" }}</td>
         </tr>
     </table>
+
+    <hr>
 
     {% if reply_list %}
     <table border="1">

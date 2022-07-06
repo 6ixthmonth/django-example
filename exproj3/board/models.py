@@ -21,7 +21,7 @@ class Board(models.Model):
 
         result = f"""{{
             {'number':{max_length}}: {self.number},
-            {'title':{max_length}}: '{self.title}',
+            {'title':{max_length}}: '{shorten(self.title, width=20, placeholder='...')}',
             {'content':{max_length}}: '{shorten(self.content, width=20, placeholder='...') if self.content != None else ''}',
             {'date':{max_length}}: {self.date:%Y-%m-%d %H:%M:%S},
             {'user':{max_length}}: {self.user},

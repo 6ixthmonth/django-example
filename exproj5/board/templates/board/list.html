@@ -20,9 +20,23 @@
         {% for board in board_list %}
         <tr>
             <td>{{ board.number }}</td>
-            <td><a href="{% url 'board:detail' board_number=board.number %}">{{ board.title }}</a></td>
+            <td>
+                <a href="{% url 'board:detail' board_number=board.number %}">
+                    {% if board.title|length > 20 %}
+                    {{ board.title|truncatechars:20 }}
+                    {% else %}
+                    {{ board.title }}
+                    {% endif %}
+                </a>
+            </td>
             <td>{{ board.user.nm }}</td>
-            <td>{{ board.date }}</td>
+            <td>
+                {% if board.is_today_published %}
+                {{ board.date|time:"a g:i" }}
+                {% else %}
+                {{ board.date|date:"Y-m-d" }}
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>

@@ -10,19 +10,21 @@ def create_user(request):
 def user_form(request):
     """로그인 뷰 함수"""
 
-    context = "<h1>로그인 페이지</h1>"
-    context += "<table>"
-    context += "    <tr>"
-    context += "        <th>ID</th>"
-    context += "        <td><input type='text'></td>"
-    context += "    </tr>"
-    context += "    <tr>"
-    context += "        <th>비밀번호</th>"
-    context += "        <td><input type='password'></td>"
-    context += "    </tr>"
-    context += "    <tr>"
-    context += "        <td><input type='button' value='로그인'></td>"
-    context += "    </tr>"
-    context += "</table>"
+    context = """
+        <h1>로그인 페이지</h1>
+        <table>
+            <tr>
+                <th>ID</th>
+                <td><input type='text'></td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td><input type='password'></td>
+            </tr>
+            <tr>
+                <td colspan=2><input type='button' value='로그인'></td>
+            </tr>
+        </table>
+    """
 
     return HttpResponse(context)
