@@ -8,8 +8,8 @@
 # 주요 배경 이론 및 문법
 
 ## 데이터베이스 설정
-- settings.py 파일의 DATABASES 항목을 통해 이 프로젝트에서 사용할 데이터베이스를 설정할 수 있다.
-- 그밖에도 장고 프로젝트에서 사용할 데이터베이스를 설정할 때는 다음의 항목들 또한 같이 설정하길 권장한다.
+- settings.py 파일의 DATABASES 변수를 통해 이 프로젝트에서 사용할 데이터베이스를 설정할 수 있다.
+- 그밖에도 장고 프로젝트에서 사용할 데이터베이스를 설정할 때는 다음의 변수들 또한 같이 설정하길 권장한다.
   - LANGUAGE_CODE = 'ko-kr'
     - 언어 코드. 기본 값은 'en-us'. 관리자 화면 등에서 표시할 언어에 영향을 준다. 설정한 언어 코드를 적용시키려면 USE_I18N 항목 값을 True로 지정해야 한다.
   - TIME_ZONE = 'Asia/Seoul'
@@ -17,18 +17,8 @@
   - USE_I18N = True
     - 장고에서 번역 시스템을 활성화시킬지 여부. 기본 값은 True.
   - USE_TZ = True
-    - 장고에서 시간대 정보를 이용하는(timezone-aware) datetime 객체를 사용할지 여부. 기본 값은 False.
-
-## 마이그레이션(Migration)
-- 앱의 설정을 읽어서 이에 필요한 데이터베이스 테이블을 자동으로 생성, 수정, 삭제해주는 기능을 말한다.
-- settings.py 파일의 INSTALLED_APPS 항목에 등록된 앱들에 대해서 실행할 수 있으며, 해당 앱에 등록된 모델의 구성에 맞춰 필요한 테이블을 자동으로 생성, 수정, 삭제한다.
-
-```shell
-python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
-```
-- 올바르게 실행했다면 터미널에서 진행 상황이 출력되는 것을 확인할 수 있고, 또한 앱 폴더 내 migrations 폴더에 마이그레이션 기록 파일이 생성된 것을 확인할 수 있다.
-- 앱 이름을 입력하지 않으면 INSTALLED_APPS 목록에 작성된 모든 앱에 대해서 작업을 실행한다.
-- 마이그레이션 파일 번호를 입력하지 않으면 최신 마이그레이션 파일에 대해서 작업을 실행한다.
+    - 장고에서 시간대 정보를 가지는(timezone-aware) datetime 객체를 사용할지 여부. 기본 값은 False.
+    - 유의할 점은, 이 변수가 True로 초기화되어도 데이터베이스에 날짜 데이터를 저장할 때 UTC 시간대를 적용한다. 대신 애플리케이션에서 날짜 데이터를 불러와서 출력할 때 서버가 위치한 지역의 시간대를 적용한다.
 
 ## 모델(Model)
 - 장고는 ORM(Object Relational Mapping) 방식으로 데이터베이스 연동 기능을 지원하기 때문에 이에 필요한 클래스를 정의해야 한다.
@@ -37,9 +27,6 @@ python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
 - django.db.models.Model 클래스를 상속해서 구현한다.
 - 데이터베이스의 필드를 클래스 변수로 표현한다.
 - 마이그레이션을 실행하면 이 모델에 작성된 내용(테이블 이름, 필드 이름, 자료형, 제약조건 등)을 기준으로 데이터베이스의 테이블을 생성한다.
-  - 테이블 이름은 기본적으로 <앱 이름>_<lower(모델 이름)>으로 설정한다.
-  - 필드 이름은 기본적으로 <클래스 변수 이름>으로 설정한다.
-  - 자료형과 제약조건은 설정된 데이터베이스의 종류에 따라서 자동으로 설정한다.
 
 ### 필드의 종류
 - 모델에 필드를 작성할 때 사용할 수 있는 주요 클래스들은 다음과 같다.
@@ -47,7 +34,7 @@ python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
 - BigIntegerField: 64비트의 정수 필드. IntegerField보다 더 큰 값을 저장할 때 사용한다.
 - FloatField: 실수 필드. 파이썬의 float 인스턴스로 표현된다.
 - DecimalField: 고정 소수점 실수 필드. 파이썬의 Decimal 인스턴스로 표현된다.
-- BooleanField: 논리 필드. 주로 체크박스 등의 형태로 입력받을 때 사용한다. default를 설정하지 않으면 의외로 None이 기본 값으로 설정된다.
+- BooleanField: 논리 필드. 주로 체크박스 등의 형태로 입력받을 때 사용한다. default를 설정하지 않으면 의외로 None을 기본 값으로 설정한다.
 
 - CharField: 짧은 문자열을 나타내는 필드. max_length 옵션을 반드시 설정해야 한다.
 - TextField: 긴 문자열을 나타내는 필드. max_length 옵션을 설정할 수도 있다.
@@ -76,73 +63,114 @@ python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
   - 만약 모델에 직접 pk 필드를 작성하지 않아도 장고는 자동으로 pk 필드를 생성해준다. apps.py 파일의 AppConfig.default_auto_field 옵션과 settings.py 파일의 DEFAULT_AUTO_FIELD 옵션에 따라 설정된다.
   - 이 값이 적용되면 null=False 및 unique=True 또한 자동으로 적용된다.
 - db_column: 이 필드에 대한 데이터베이스의 컬럼명을 설정할 수 있다. 따로 설정하지 않으면, 데이터베이스의 컬럼명을 자동으로 이 필드명으로 설정한다.
-- verbose_name: 이 필드에 대한 별칭. 관리자 페이지에서 주로 표현된다. 따로 설정하지 않으면, 이 필드명에서 언더스코어('_')를 공백(' ')으로 치환해서 설정한다.
+- verbose_name: 이 필드에 대한 별칭. 관리자 페이지에서 주로 표현된다. 따로 설정하지 않으면, 이 필드 이름에서 언더스코어('_')를 공백(' ')으로 치환해서 설정한다.
+
+## 마이그레이션(Migration)
+```shell
+python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
+```
+- 모델의 구성에 맞춰 필요한 데이터베이스 테이블을 자동으로 생성, 수정, 삭제해주는 기능을 말한다.
+- settings.py 파일의 INSTALLED_APPS 변수에 저장된 앱들에 대해서 실행할 수 있다. 앱을 등록하지 않고 마이그레이션을 시도하면 오류 메시지가 출력된다.
+- 올바르게 실행했다면 앱 폴더 내 migrations 폴더에 마이그레이션 파일이 생성된 것을 확인할 수 있다.
+- 명령어를 실행할 때 앱 이름을 입력하지 않으면 INSTALLED_APPS 목록에 작성된 모든 앱에 대해서 작업을 실행한다.
+- 명령어를 실행할 때 마이그레이션 파일 번호를 입력하지 않으면 최신 마이그레이션 파일에 대해서 작업을 실행한다.
 
 ## 마이그레이션 파일 생성
-- 앱에 작성한 모델에 기반하여 마이그레이션할 때 사용할 파일을 만들 수 있다.
-- (명령 프롬프트에서) python manage.py makemigrations [앱 이름 [앱 이름 ...]]
-- 명령어를 실행하면 앱 폴더 내 migrations 폴더에 자동으로 번호를 붙여 파일을 생성한다. 장고에서는 이를 통해 마치 버전 관리 프로그램처럼 마이그레이션을 되돌리거나 적용시킬 수 있도록 지원한다.
+```shell
+python manage.py makemigrations [앱 이름 [앱 이름 ...]]
+```
+- 명령어를 실행하면 마이그레이션을 실행할 때 사용할 파일을 만든다. 이 파일은 모델에 작성한 내용을 데이터베이스에 반영하기 위해 테이블 생성, 수정, 삭제 등의 변경점을 기록한다.
+- 명령어를 실행하면 앱 폴더 내 migrations 폴더에 파일을 생성한다.
+- 파일을 직접 열어 상세한 부분을 직접 튜닝할 수도 있다.
+- 명령어를 실행할 때마다 0001부터 번호를 하나씩 붙여 파일명을 자동으로 설정해준다.
+- 장고에서는 이를 통해 마치 버전 관리 프로그램처럼 이전의 마이그레이션으로 되돌리거나 적용시킬 수 있도록 지원한다.
 
-## SQL문 확인
-- 마이그레이션 파일을 적용할 때 사용할 SQL문을 확인할 수 있다.
-- (명령 프롬프트에서) python manage.py sqlmigrate <앱 이름> <마이그레이션 파일 번호>
+## 마이그레이션 SQL문 확인
+```shell
+python manage.py sqlmigrate <앱 이름> <마이그레이션 파일 번호>
+```
+- 명령어를 실행하면 마이그레이션을 실행할 때 사용할 SQL문을 확인할 수 있다.
 - 사용하는 데이터베이스의 종류에 따라서 출력 결과가 달라질 수 있다.
-- 테이블 이름은 기본적으로 <앱 이름>_<lower(모델 이름)>으로 설정한다.
-- 필드 이름은 기본적으로 <클래스 변수 이름>으로 설정한다.
-- 기본 키 필드를 설정하지 않았다면, 'id' 필드로 자동으로 추가한다.
-- 외래 키 필드를 설정했다면, '<lower(모델 이름)>_id' 필드로 추가한다.
+- 테이블의 이름은 기본적으로 '<앱 이름>_<lower(모델 이름)>'으로 설정된다.
+  - user 앱의 User 모델에 대응하는 테이블의 이름은 'user_user'로 설정된다.
+  - board 앱의 Board 모델에 대응하는 테이블의 이름은 'board_board'로 설정된다.
+  - board 앱의 Reply 모델에 대응하는 테이블의 이름은 'board_reply'로 설정된다.
+- 테이블의 필드 이름은 기본적으로 모델의 클래스 변수 이름으로 설정된다.
+  - 기본 키 필드를 설정하지 않았다면 자동으로 추가한다. 이때 필드 이름은 'id'로 설정된다.
+  - 외래 키 필드를 설정했다면 필드 이름은 '<lower(기본 키 모델 이름)>_id'로 설정된다.
+    - Board 모델에 user 클래스 변수를 외래 키로 작성하면 테이블에 'user_id' 필드가 생성된다. 이는 'user_user' 테이블의 'id' 필드에 대응된다.
+    - Reply 모델에 user 클래스 변수를 외래 키로 작성하면 테이블에 'user_id' 필드가 생성된다. 이는 'user_user' 테이블의 'id' 필드에 대응된다.
+    - Reply 모델에 board 클래스 변수를 외래 키로 작성하면 테이블에 'board_id' 필드가 생성된다. 이는 'board_board' 테이블의 'number' 필드에 대응된다.
+- 자료형과 제약조건은 데이터베이스의 종류에 따라서 적절히 설정한다.
 
 ## 마이그레이션 명령어 요약 정리
-- migrate: 마이그레이션을 적용하는 명령어.
-  - (명령 프롬프트에서) python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
+- migrate: 마이그레이션을 실행하는 명령어.
+```shell
+python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
+```
 - makemigrations: 마이그레이션 파일을 생성하는 명령어.
-  - (명령 프롬프트에서) python manage.py makemigrations [앱 이름 [앱 이름 ...]]
+```shell
+python manage.py makemigrations [앱 이름 [앱 이름 [...]]]
+```
 - sqlmigrate: 마이그레이션 할 때 사용할 SQL문을 조회할 때 사용하는 명령어.
-  - (명령 프롬프트에서) python manage.py sqlmigrate <앱 이름> <마이그레이션 파일 번호>
-- showmigrations: 모든 마이그레이션 목록을 조회할 때 사용하는 명령어.
-  - (명령 프롬프트에서) python manage.py showmigrations [앱 이름 [앱 이름 ...]]
+```shell
+python manage.py sqlmigrate <앱 이름> <마이그레이션 파일 번호>
+```
+- showmigrations: 전체 프로젝트 또는 지정한 앱에 존재하는 모든 마이그레이션을 조회할 때 사용하는 명령어.
+```shell
+python manage.py showmigrations [앱 이름 [앱 이름 [...]]]
+```
 
 ## 파이썬 셸
-- 장고 프로젝트 설정 파일인 settings.py 파일을 적용한 파이썬 셸을 실행할 수 있다.
-- (명령 프롬프트에서) python manage.py shell
+```shell
+python manage.py shell
+```
+- 장고 프로젝트 설정을 적용한 파이썬 셸을 실행할 수 있다.
 - 데이터베이스 조작 등의 목적으로 사용할 수 있다.
 
 ## 데이터베이스 API
-- 마이그레이션 적용 후, 파이썬 셸에서 데이터베이스 조작을 할 수 있다.
-- 데이터베이스 조작을 위해 먼저 모델 클래스를 불러온 후 사용한다.
-  - >>> from <앱명>.models import <모델명>
-- 모델 클래스에서 objects 속성을 호출하면 Manager 객체에 접근할 수 있다. 주로 이 객체를 통해 데이터베이스를 조작한다.
+- 마이그레이션 실행 후 생성된 테이블을 파이썬 셸에서 조작할 수 있다.
+- 테이블을 조작하기 위해 먼저 모델 클래스를 불러온 후 사용한다.
+```python
+from <앱 이름>.models import <모델 이름>
+```
+- 모델 클래스에서 objects 속성을 호출하면 Manager 객체에 접근할 수 있다. 주로 이 객체를 통해 테이블을 조작한다.
 
 ### 데이터 조회
 - all()
   - 해당 모델로 만들어진 테이블에 존재하는 레코드를 모두 조회해서 QuerySet 객체로 반환한다.
   - QuerySet 객체는 여러 개의 모델 객체를 묶어서 표현한, 리스트와 유사한 객체다.
-    - >>> User.objects.all()  # 모든 User 데이터 조회.
-    - >>> Board.objects.all()  # 모든 Board 데이터 조회.
-    - >>> Reply.objects.all()  # 모든 Reply 데이터 조회.
+```python
+User.objects.all()  # 모든 User 데이터 조회.
+Board.objects.all()  # 모든 Board 데이터 조회.
+Reply.objects.all()  # 모든 Reply 데이터 조회.
+```
+
 - filter(lookup_parameter=value, ...)
   - 조건을 일치하는 데이터를 모두 조회해서 QuerySet 객체로 반환한다.
-  - lookup_parameter는 단순히 필드명을 써서 해당 필드의 값이 일치하는지 여부를 조회할 수도 있고, 좀 더 복잡한 조건 옵션을 사용할 수도 있다.
-    - >>> User.objects.filter(pk='test1')  # pk 필드(=id)의 값이 'test1'인 User 데이터를 모두 조회.
-    - >>> User.objects.filter(nm='테스터2')  # nm 필드의 값이 '테스터2'인 User 데이터를 모두 조회.
-    - >>> User.objects.filter(id='test3', nm='테스터3')  # id 필드의 값이 'test3'이고, nm 필드의 값이 '테스터3'인 User 데이터를 모두 조회.
-
-    - >>> Board.objects.filter(title__startswith='게시글')  # title 필드의 값이 '게시글'로 시작하는 Board 데이터를 모두 조회.
-    - >>> Board.objects.filter(title__contains='테스트')  # title 필드의 값에 '테스트'가 포함된 Board 데이터를 모두 조회.
-    - >>> Board.objects.filter(content__exact='')  # content 필드의 값이 빈 문자열인 Board 데이터를 모두 조회.
-    - >>> Board.objects.filter(content__exact=None)  # content 필드의 값이 null인 Board 데이터를 모두 조회.
-    - >>> Board.objects.filter(user_id__exact='test3')  # user_id 필드의 값이 정확히 'test3'인 Board 데이터를 모두 조회.
-    - >>> Board.objects.filter(user_id='test3')  # user_id 필드의 값이 'test3'인 Board 데이터를 모두 조회.
-
-    - >>> Reply.objects.filter(pk=1)  # pk 필드(=id)의 값이 1인 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(id__lt=4)  # id 필드의 값이 4보다 작은 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(id__gte=4)  # id 필드의 값이 4보다 크거나 같은 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(id__in=[1, 3, 5])  # id 필드의 값이 1, 3, 5 중 하나에 해당하는 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(date__date='2022-07-01')  # date 필드의 값의 날짜가 2022년 7월 1일인 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(date__date=datetime.date(2022, 7, 1))  # date 필드의 값의 날짜가 2022년 6월 30일인 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(date__range=('2022-06-30', '2022-07-02'))  # date 필드의 값의 날짜가 2022년 7월 1일 0시 0분 0초부터 2022년 7월 2일 0시 0분 0초 사이인 Reply 데이터를 모두 조회(timezone 유의).
-    - >>> Reply.objects.filter(date__year=2022)  # date 필드의 값의 년도가 2022년인 Reply 데이터를 모두 조회.
-    - >>> Reply.objects.filter(date__week_day=6)  # date 필드의 값의 요일이 금요일인 Reply 데이터를 모두 조회(1~7, 일~토).
+  - lookup_parameter는 단순히 필드 이름을 써서 해당 필드의 값이 일치하는지 여부를 조회할 수도 있고, 좀 더 복잡한 조건을 사용할 수도 있다.
+```python
+User.objects.filter(pk='test1')  # pk 필드(=id)의 값이 'test1'인 User 데이터를 모두 조회.
+User.objects.filter(nm='테스터2')  # nm 필드의 값이 '테스터2'인 User 데이터를 모두 조회.
+User.objects.filter(id='test3', nm='테스터3')  # id 필드의 값이 'test3'이고, nm 필드의 값이 '테스터3'인 User 데이터를 모두 조회.
+#
+Board.objects.filter(title__startswith='게시글')  # title 필드의 값이 '게시글'로 시작하는 Board 데이터를 모두 조회.
+Board.objects.filter(title__contains='테스트')  # title 필드의 값에 '테스트'가 포함된 Board 데이터를 모두 조회.
+Board.objects.filter(content__exact='')  # content 필드의 값이 빈 문자열인 Board 데이터를 모두 조회.
+Board.objects.filter(content__exact=None)  # content 필드의 값이 null인 Board 데이터를 모두 조회.
+Board.objects.filter(user_id='test3')  # user_id 필드의 값이 'test3'인 Board 데이터를 모두 조회.
+Board.objects.filter(user_id__exact='test3')  # user_id 필드의 값이 정확히 'test3'인 Board 데이터를 모두 조회.
+#
+Reply.objects.filter(pk=1)  # pk 필드(=id)의 값이 1인 Reply 데이터를 모두 조회.
+Reply.objects.filter(id__lt=4)  # id 필드의 값이 4보다 작은 Reply 데이터를 모두 조회.
+Reply.objects.filter(id__gte=4)  # id 필드의 값이 4보다 크거나 같은 Reply 데이터를 모두 조회.
+Reply.objects.filter(id__in=[1, 3, 5])  # id 필드의 값이 1, 3, 5 중 하나에 해당하는 Reply 데이터를 모두 조회.
+Reply.objects.filter(date__date='2022-07-01')  # date 필드의 값의 날짜가 2022년 7월 1일인 Reply 데이터를 모두 조회.
+Reply.objects.filter(date__date=datetime.date(2022, 7, 1))  # date 필드의 값의 날짜가 2022년 6월 30일인 Reply 데이터를 모두 조회.
+Reply.objects.filter(date__range=('2022-06-30', '2022-07-02'))  # date 필드의 값의 날짜가 2022년 7월 1일 0시 0분 0초부터 2022년 7월 2일 0시 0분 0초 사이인 Reply 데이터를 모두 조회(timezone 유의).
+Reply.objects.filter(date__year=2022)  # date 필드의 값의 년도가 2022년인 Reply 데이터를 모두 조회.
+Reply.objects.filter(date__week_day=6)  # date 필드의 값의 요일이 금요일인 Reply 데이터를 모두 조회(1~7, 일~토).
+```
 - get(lookup_parameter=value, ...)
   - 조건을 일치하는 데이터를 1개 조회해서 모델 객체로 반환한다.
   - 결과가 여러 개면 오류가 발생한다.
@@ -151,9 +179,11 @@ python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
 ### 데이터 생성, 수정, 저장, 삭제
 - <변수명> = <모델명>(필드명=값, ...)
   - 새로운 데이터를 입력하기 위해 새로운 객체를 생성한다. 하지만 객체를 생성하는 것만으로는 아직 데이터베이스에 반영되지 않는다.
-    - >>> new_user = User(id='hong', pw='1234', nm='홍길동')  # 사용자 객체 생성.
-    - >>> new_board = Board(title='새 글 제목', user_id='test1')  # 게시글 객체 생성. fk_id 필드에 pk 필드의 값을 대입할 수 있다.
-    - >>> new_reply = Reply(content='새 댓글 내용', user_id='test2', board=new_board)  # 댓글 객체 생성. fk 필드에 pk 모델 객체를 바로 대입할 수도 있다.
+```python
+new_user = User(id='hong', pw='1234', nm='홍길동')  # 사용자 객체 생성.
+new_board = Board(title='새 글 제목', user_id='test1')  # 게시글 객체 생성. fk_id 필드에 pk 필드의 값을 대입할 수 있다.
+new_reply = Reply(content='새 댓글 내용', user_id='test2', board=new_board)  # 댓글 객체 생성. fk 필드에 pk 모델 객체를 바로 대입할 수도 있다.
+```
 - <변수명>.<필드명> = 값
   - 만들어진 데이터를 수정하기 위해 특정 필드를 선택해서 값을 할당한다. 하지만 객체를 수정하는 것만으로는 아직 데이터베이스에 반영되지 않는다.
 - <변수명>.save()
@@ -167,14 +197,18 @@ python manage.py migrate [앱 이름] [마이그레이션 파일 번호]
 - 모델 클래스에서 <lower(fk 모델명)>_set 속성을 호출하면 RelatedManager 객체에 접근할 수 있다. 이 속성을 이용해서 pk 테이블의 특정 레코드에 대한 fk 테이블의 레코드를 조작할 수 있다.
 - all(), filter(), get()
   - QuerySet 객체와 동일하게 사용할 수 있다.
-  - >>> Board.objects.get(pk=1).reply_set.all()  # 1번 게시글의 댓글 데이터를 모두 조회.
-  - >>> Board.objects.get(pk=2).reply_set.filter(user_id='test2')  # 2번 게시글의 댓글 중 'test2'가 작성한 데이터를 모두 조회.
-  - >>> Board.objects.get(pk=3).reply_set.get(content__startswith='안녕')  # 3번 게시글의 댓글 중 내용이 '안녕'으로 시작하는 데이터 1개 조회.
+```python
+Board.objects.get(pk=1).reply_set.all()  # 1번 게시글의 댓글 데이터를 모두 조회.
+Board.objects.get(pk=2).reply_set.filter(user_id='test2')  # 2번 게시글의 댓글 중 'test2'가 작성한 데이터를 모두 조회.
+Board.objects.get(pk=3).reply_set.get(content__startswith='안녕')  # 3번 게시글의 댓글 중 내용이 '안녕'으로 시작하는 데이터 1개 조회.
+```
 - create(필드명=값, ...)
   - 지정한 변수를 pk로 하는 fk 레코드 데이터를 생성할 수 있다.
   - 데이터 생성 시 fk 필드는 따로 만들지 않아도 된다.
-    - >>> User.objects.get(id='test1').board_set.create(title='새 글 작성', content='안녕하세요?')  # 'test1' 유저로 새 글 작성.
-    - >>> Board.objects.latest('date').reply_set.create(content='아니요.', user_id='test2')  # 'test2' 유저로 최신 게시글에 댓글 작성.
+```python
+User.objects.get(id='test1').board_set.create(title='새 글 작성', content='안녕하세요?')  # 'test1' 유저로 새 글 작성.
+Board.objects.latest('date').reply_set.create(content='아니요.', user_id='test2')  # 'test2' 유저로 최신 게시글에 댓글 작성.
+```
 
 ### 기타 QuerySet 객체 관련 함수
 - count(): QuerySet 객체 내 모델 객체들의 수를 반환한다.

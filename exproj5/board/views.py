@@ -12,6 +12,7 @@ def board_list(request):
 
     return render(request, 'board/list.html', context)
 
+
 def board_detail(request, board_number):
     """게시글 상세 뷰 함수"""
 

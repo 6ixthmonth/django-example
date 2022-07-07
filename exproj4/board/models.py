@@ -11,7 +11,7 @@ class Board(models.Model):
     number = models.BigAutoField(primary_key=True)  # 게시글 번호
     title = models.CharField(max_length=40)  # 게시글 제목
     content = models.TextField(null=True, blank=True)  # 게시글 내용
-    date = models.DateTimeField(default=timezone.localtime)  # 게시글 작성일
+    date = models.DateTimeField(default=timezone.now)  # 게시글 작성일
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 게시글 작성자
 
     # 관리자 페이지에서 Board 객체 출력 시 사용
@@ -38,7 +38,7 @@ class Board(models.Model):
 class Reply(models.Model):
     """댓글 클래스"""
     content = models.TextField()  # 댓글 내용
-    date = models.DateTimeField(default=timezone.localtime)  # 댓글 작성일
+    date = models.DateTimeField(default=timezone.now)  # 댓글 작성일
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 댓글 작성자
     board = models.ForeignKey(Board, on_delete=models.CASCADE)  # 원본 게시글
 
@@ -55,9 +55,9 @@ class Reply(models.Model):
         result = f"""{{
             {'id':{max_length}}: {self.id},
             {'content':{max_length}}: '{shorten(self.content, width=20, placeholder='...')}',
-            {'date':{max_length+1}}: {self.date:%Y-%m-%d %H:%M:%S},
-            {'user_id':{max_length+1}}: {self.user_id},
-            {'board_id':{max_length+1}}: {self.board_id}
+            {'date':{max_length}}: {self.date:%Y-%m-%d %H:%M:%S},
+            {'user_id':{max_length}}: {self.user_id},
+            {'board_id':{max_length}}: {self.board_id}
         }}"""
 
         return result
