@@ -34,7 +34,7 @@ class Board(models.Model):
 
         return result
 
-    def is_today_published(self):
+    def is_today_published(self) -> bool:
         """오늘 작성한 게시글인지 확인하는 함수"""
         board_date = self.date
         today = timezone.now()

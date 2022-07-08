@@ -22,11 +22,7 @@
             <td>{{ board.number }}</td>
             <td>
                 <a href="{% url 'board:detail' board_number=board.number %}">
-                    {% if board.title|length > 20 %}
                     {{ board.title|truncatechars:20 }}
-                    {% else %}
-                    {{ board.title }}
-                    {% endif %}
                 </a>
             </td>
             <td>{{ board.user.nm }}</td>
