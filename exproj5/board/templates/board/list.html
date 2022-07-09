@@ -4,6 +4,15 @@
 <head>
     <meta charset="utf-8">
     <title>게시글 목록</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .reply-count {
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,6 +32,9 @@
             <td>
                 <a href="{% url 'board:detail' board_number=board.number %}">
                     {{ board.title|truncatechars:20 }}
+                    {% if board.reply_count %}
+                    <span class="reply-count">[{{ board.reply_count }}]</span>
+                    {% endif %}
                 </a>
             </td>
             <td>{{ board.user.nm }}</td>

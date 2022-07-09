@@ -34,8 +34,12 @@ class Board(models.Model):
 
         return result
 
+    def reply_count(self) -> int:
+        """이 게시글에 달린 댓글 수를 반환하는 함수"""
+        return Reply.objects.filter(board_id=self.number).count()
+
     def is_today_published(self) -> bool:
-        """오늘 작성한 게시글인지 확인하는 함수"""
+        """오늘 작성한 게시글 여부를 반환하는 함수"""
         board_date = self.date
         today = timezone.now()
         return (board_date.year == today.year) and (board_date.month == today.month) and (board_date.day == today.day)
