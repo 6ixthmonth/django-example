@@ -4,18 +4,43 @@
 <head>
     <meta charset="utf-8">
     <title>{{ board.title }}</title>
+    <style>
+        .board-number {
+            width: 50px;
+        }
+        .board-title {
+            width: 250px;
+        }
+        .user-nm {
+            width: 100px;
+            text-align: center;
+        }
+        .date {
+            width: 200px;
+            text-align: center;
+        }
+        .board-content {
+            width: 600px;
+            height: 300px;
+
+            vertical-align: top;
+        }
+        .reply-content {
+            width: 300px;
+        }
+    </style>
 </head>
 
 <body>
     <table border="1">
         <tr>
-            <th>{{ board.number }}</th>
-            <th>{{ board.title }}</th>
-            <th>{{ board.user.nm }}</th>
-            <th>{{ board.date }}</th>
+            <th class="board-number">{{ board.number }}</th>
+            <th class="board-title">{{ board.title }}</th>
+            <th class="user-nm">{{ board.user.nm }}</th>
+            <th class="date">{{ board.date }}</th>
         </tr>
         <tr>
-            <td colspan="4">{{ board.content|default_if_none:"" }}</td>
+            <td colspan="4" class="board-content">{{ board.content|default_if_none:"" }}</td>
         </tr>
     </table>
 
@@ -25,9 +50,9 @@
     <table border="1">
         {% for reply in reply_list %}
         <tr>
-            <td>{{ reply.content }}</td>
-            <td>{{ reply.user.nm }}</td>
-            <td>{{ reply.date }}</td>
+            <td class="reply-content">{{ reply.content }}</td>
+            <td class="user-nm">{{ reply.user.nm }}</td>
+            <td class="date">{{ reply.date }}</td>
         </tr>
         {% endfor %}
     </table>
