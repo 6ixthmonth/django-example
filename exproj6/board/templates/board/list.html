@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>게시글 목록</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .reply-count {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>게시글 목록</h1>
+
+    {% if board_list %}
+    <table border="1">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        {% for board in board_list %}
+        <tr>
+            <td>{{ board.number }}</td>
+            <td>
+                <a href="{% url 'board:detail' board_number=board.number %}">
+                    {{ board.title|truncatechars:20 }}
+                    {% if board.reply_count %}
+                    <span class="reply-count">[{{ board.reply_count }}]</span>
+                    {% endif %}
+                </a>
+            </td>
+            <td>{{ board.user.nm }}</td>
+            <td>
+                {% if board.is_today_published %}
+                {{ board.date|time:"a g:i" }}
+                {% else %}
+                {{ board.date|date:"Y-m-d" }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>게시글이 존재하지 않습니다.</p>
+    {% endif %}
+</body>
+
+</html>

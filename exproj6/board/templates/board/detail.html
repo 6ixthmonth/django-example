@@ -46,9 +46,9 @@
 
     <hr>
 
-    {% if reply_list %}
+    {% if board.reply_set.all %}
     <table border="1">
-        {% for reply in reply_list %}
+        {% for reply in board.reply_set.all %}
         <tr>
             <td class="reply-content">{{ reply.content }}</td>
             <td class="user-nm">{{ reply.user.nm }}</td>

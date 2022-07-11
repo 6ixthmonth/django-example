@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+</head>
+
+<body>
+    <h1>게시판 예제 사이트</h1>
+    <ul>
+        {% if request.session.user_nm %}
+        <li><a href="{% url 'board:list' %}">게시글 목록</a></li>
+        <li><a href="{% url 'user:signout' %}">로그아웃</a></li>
+        {% else %}
+        <li><a href="{% url 'user:create' %}">사용자 등록</a></li>
+        <li><a href="{% url 'user:form' %}">로그인</a></li>
+        {% endif %}
+    </ul>
+</body>
+
+</html>
