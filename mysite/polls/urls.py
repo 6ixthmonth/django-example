@@ -3,6 +3,9 @@ from django.urls import path
 from . import views
 
 
+# 이 앱에서 사용할 이름공간(namespace) 설정.
+app_name = 'polls'
+
 # urlpatterns = [
 #     # ex: /polls/
 #     path('', views.index, name='index'),
@@ -14,10 +17,7 @@ from . import views
 #     path('<int:question_id>/vote/', views.vote, name='vote'),
 # ]
 
-# polls 앱의 namespace 설정
-app_name = 'polls'
-
-# generic view
+# 제네릭 뷰 사용.
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),

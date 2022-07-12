@@ -30,6 +30,7 @@ def main():
     # 입력받은 명령어를 실행한다.
     execute_from_command_line(sys.argv)
 
+
 # 이 스크립트가 실행되면 main() 함수를 실행한다.
 if __name__ == '__main__':
     main()

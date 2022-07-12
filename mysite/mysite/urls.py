@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/4.0/topics/http/urls/
 """
 
 
-from django.urls import path, include
 from django.contrib import admin
+from django.urls import include, path
 
 
 urlpatterns = [
-    path('polls/', include('polls.urls')), # 투표 앱 관련 URL 패턴. `[rootpath]/polls/*` 와 같은 형태의 요청이 들어오면 polls 폴더의 urls.py 파일을 통해 처리한다.
-    path('admin/', admin.site.urls), # 관리자 페이지로 이동하는 URL 패턴.
+    path('polls/', include('polls.urls')),  # 투표 앱 관련 URL 패턴. 'polls/*' 와 같은 형태의 요청이 들어오면 polls 폴더의 urls.py 파일을 통해 처리한다.
+    path('admin/', admin.site.urls),  # 관리자 페이지로 이동하는 URL 패턴.
 ]
