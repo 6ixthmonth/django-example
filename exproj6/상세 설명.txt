@@ -1,10 +1,86 @@
 # 개요 및 목표
-- 이 프로젝트는 request, 세션, 제네릭 뷰에 대해 다룬다.
+- 이 프로젝트는 리다이렉트, 세션, 제네릭 뷰에 대해 다룬다.
 - 이전 프로젝트와 비교해서 URLconf 파일과 뷰 스크립트 파일이 수정되었다.
 - 올바르게 따라한다면 이 프로젝트와 유사한 결과물을 얻을 수 있다.
 
 
 # 주요 배경 이론 및 문법
 
-## 제네릭뷰
-- 설명
+## 리다이렉트(Redirect)
+- django.http.HttpResponseRedirect 객체를 사용하면 리다이렉트 할 수 있다.
+  - django.http.HttpResponse 클래스의 하위 클래스로써, 마찬가지로 뷰 함수에서 반환하는 응답 객체로 사용된다.
+  - 객체의 생성자에 리다이렉트할 URL 문자열을 입력한다.
+- django.urls.reverse 함수를 이용해서, urls.py 파일에 등록된 URL 패턴 이름으로부터 연결된 URL 값을 반환받을 수 있다.
+  - 이를 이용해서 URL 값을 하드코딩 하지 않고 리다이렉트를 구현할 수 있다.
+```python
+def create(request):
+    ...
+    return HttpResponseRedirect(reverse('user:form'))  # user 앱에서 form이라는 이름이 부여된 URL 패턴과 연결된 URL로 리다이렉트.
+```
+
+## 세션(Session)
+- 세션 기능은 기본 앱으로 등록되어 있다.
+- 뷰 함수에서 HttpRequest 객체로부터 session 속성을 호출하여 데이터를 저장하거나 꺼내올 수 있다.
+- del 키워드를 사용하면 세션에서 데이터를 삭제할 수 있다.
+```python
+def form(request):
+    ...
+    request.session['user_nm'] = login_user.nm  # 세션에 user_nm 데이터 저장.
+
+def signout(request):
+    ...
+    del request.session['user_nm']  # 세션에서 user_nm 데이터 삭제.
+```
+
+## <form> 태그를 통한 데이터 전송 및 처리
+- action 속성에 url 태그를 사용할 수 있다.
+- csrf_token 태그를 으레 적용하곤 한다.
+  - csrf: 사이트 간 요청 위조(Cross Site Request Forgeries). 변조된 웹 페이지를 통해 사용자의 요청을 위조하여 공격하는 방식.
+- 뷰 함수에서 HttpRequest 객체로부터 GET 또는 POST 속성을 호출하여 제출된 양식 데이터를 꺼내올 수 있다.
+- 처리 후 사용자가 브라우저에서 뒤로 가기 클릭 시 요청이 중복 발생하는 것을 방지하기 위해 리다이렉트로 처리할 것을 권장힌디.
+```python
+def form(request):
+    ...
+    login_user = User.objects.get(id=request.POST['id'])
+    if login_user.pw == request.POST['pw']:
+        ...
+```
+
+## 제네릭 뷰(Generic view)
+- 장고에서 미리 만들어서 제공하는 클래스 기반의 뷰(Class Based View, CBV)를 말한다.
+- 웹 애플리케이션에서 주로 사용하는 형식의 뷰를 클래스로 구현해두었다.
+- views.py 파일에 해당 클래스들을 상속하는 클래스를 작성해서 사용한다.
+- urls.py 파일에 as_view() 메소드
+
+### 종류
+- 사용자가 가장 자주 사용하는 공통 작업들을 수행할 수 있도록 클래스들이 구현되어 있다.
+1. Base views: 장고 뷰를 생성하기 위해 필요한 핵심 기능을 제공하는 클래스들.
+  - View: CBV 최상위 클래스.
+  - TemplateView: 주어진 템플릿을 화면에 그린다.
+  - RedirectView: 주어진 URL을 리다이렉트 한다.
+2. Generic display views: 데이터를 출력하기 위해 디자인된 클래스들.
+  - DetailView: 객체 하나를 표시할 때 사용하는 뷰.
+  - ListView: 여러 객체를 표시할 때 사용하는 뷰.
+3. Generic editing views: 양식 데이터를 변경하는 기능을 제공하는 클래스들.
+  - FormView: 양식을 출력하는 뷰.
+  - CreateView: 객체를 생성하기 위한 양식을 출력하는 뷰.
+  - UpdateView: 객체를 수정하기 위한 양식을 출력하는 뷰.
+  - DeleteView: 객체를 삭제하기 위한 양식을 출력하는 뷰.
+4. Generic date views: 날짜 기반의 아카이브 데이터를 관리하기 위한 클래스들.
+  - ArchiveIndexView: 최신 객체를 출력할 때 사용하는 뷰.
+  - YearArchiveView
+  - MonthArchiveView
+  - WeekArchiveView
+  - DayArchiveView
+  - TodayArchiveView
+  - DateDetailView
+
+주요 속성
+model
+template_name
+context_object_name
+
+get_context_data()
+
+query_set
+get_queryset()

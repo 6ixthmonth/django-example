@@ -32,10 +32,10 @@
             <td>
                 <a href="{% url 'board:detail' board_number=board.number %}">
                     {{ board.title|truncatechars:20 }}
-                    {% if board.reply_count %}
-                    <span class="reply-count">[{{ board.reply_count }}]</span>
-                    {% endif %}
                 </a>
+                {% if board.reply_count %}
+                <span class="reply-count">[{{ board.reply_count }}]</span>
+                {% endif %}
             </td>
             <td>{{ board.user.nm }}</td>
             <td>

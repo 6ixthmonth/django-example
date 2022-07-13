@@ -25,8 +25,8 @@ def create(request):
             user_pw_chk = request.POST['pw_chk']
             user_nm = request.POST['nm']
 
-            # 조건을 만족하면 데이터베이스에 사용자 데이터를 저장하고 로그인 페이지로 이동
             if len(user_id) > 0 and len(user_pw) > 0 and user_pw == user_pw_chk and len(user_nm) > 0 and not User.objects.filter(pk=user_id).exists():
+                # 조건을 만족하면 데이터베이스에 사용자 데이터를 저장하고 로그인 페이지로 이동
                 User(id=user_id, pw=user_pw, nm=user_nm).save()
                 return HttpResponseRedirect(reverse('user:form'))
         except KeyError:
