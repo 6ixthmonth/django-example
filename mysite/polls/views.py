@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
+from django.utils import timezone
+
 from .models import Choice, Question
 
 
@@ -89,7 +91,7 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])  # request.POST['choice']에서 KeyError 발생 가능
     except (KeyError, Choice.DoesNotExist):
-        # 질문 투표 양식을 다시 보여준다.
+        # 오류 발생 시 질문 투표 양식을 다시 보여준다.
         return render(request, 'polls/detail.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
@@ -109,13 +111,19 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """최근 등록된 설문 다섯 개를 반환한다."""
-        return Question.objects.order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 
 class DetailView(generic.DetailView):
     """설문 상세 페이지로 이동하는 클래스."""
     model = Question  # 각각의 제네릭 뷰에게 어떤 모델에 대해 동작할지 알려주는 변수.
     template_name = 'polls/detail.html'
+
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 
 class ResultsView(generic.DetailView):

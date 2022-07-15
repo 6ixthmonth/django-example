@@ -12,9 +12,14 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
-    def was_published_recently(self) -> bool:
-        """최근 1일 이내 작성한 질문인지 검사하는 함수."""
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    # def was_published_recently(self):
+    #     """최근 1일 이내 작성한 질문인지 검사하는 함수."""
+    #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+    def was_published_recently(self):
+        """질문 작성일이 현재 시간보다 1일 전이면서 현재 시간 사이인지 검사하는 함수. 미래 시점으로 설정된 질문의 경우 False를 반환한다."""
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
 
 class Choice(models.Model):
