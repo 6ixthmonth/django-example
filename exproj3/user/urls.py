@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path('signup/', views.create_user),  # 사용자 등록
-    path('signin/', views.user_form),  # 로그인
+    path('join/', views.user_create),  # 사용자 등록.
+    path('login/', views.user_login),  # 로그인.
 ]

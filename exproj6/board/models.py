@@ -35,7 +35,7 @@ class Board(models.Model):
         }}"""
 
     def is_today_published(self) -> bool:
-        """오늘 작성한 게시글 여부를 반환하는 함수"""
+        """오늘 작성한 게시글 여부를 반환하는 함수."""
         board_date = self.date  # 게시글 작성일.
         today = timezone.now()  # 현재 시각.
         return (board_date.year == today.year) and (board_date.month == today.month) and (board_date.day == today.day)

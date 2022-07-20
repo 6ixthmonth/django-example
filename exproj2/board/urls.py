@@ -4,5 +4,5 @@ from . import views
 
 
 urlpatterns = [
-    path('list/', views.board_list),  # 게시글 목록
+    path('', views.board_list)  # 게시글 목록.
 ]

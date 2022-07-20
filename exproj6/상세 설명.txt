@@ -14,9 +14,9 @@
   - 이를 이용해서 URL 값을 직접 하드코딩 하지 않고 리다이렉트를 구현할 수 있다.
 
 ```python
-def create(request):
+def user_create(request):
     ...
-    return HttpResponseRedirect(reverse('user:form'))  # user 앱에서 form이라는 이름이 부여된 URL 패턴과 연결된 URL로 리다이렉트.
+    return HttpResponseRedirect(reverse('user:login'))  # user 앱에서 login이라는 이름이 부여된 URL 패턴과 연결된 URL로 리다이렉트.
 ```
 
 ## 세션(Session)
@@ -25,11 +25,11 @@ def create(request):
 - del 키워드를 사용하면 세션에서 데이터를 삭제할 수 있다.
 
 ```python
-def form(request):
+def user_login(request):
     ...
     request.session['user_nm'] = login_user.nm  # 세션에 user_nm 데이터 저장.
 
-def signout(request):
+def user_logout(request):
     ...
     del request.session['user_nm']  # 세션에서 user_nm 데이터 삭제.
 ```
@@ -42,7 +42,7 @@ def signout(request):
 - 처리 후 사용자가 브라우저에서 뒤로 가기 클릭 시 요청이 중복 발생하는 것을 방지하기 위해 리다이렉트로 처리할 것을 권장한다.
 
 ```python
-def form(request):
+def user_login(request):
     ...
     login_user = User.objects.get(id=request.POST['id'])  # form을 통해 전달된 name='id' 데이터를 꺼내옴.
     if login_user.pw == request.POST['pw']:  # form을 통해 전달된 name='pw' 데이터를 꺼내옴.

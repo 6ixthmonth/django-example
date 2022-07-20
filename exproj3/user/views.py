@@ -1,17 +1,15 @@
 from django.http import HttpResponse
 
 
-def create_user(request):
-    """사용자 등록 뷰 함수"""
+def user_create(request):
+    """사용자 등록 뷰 함수."""
+    return HttpResponse("사용자 등록")
 
-    return HttpResponse("사용자 등록 페이지")
 
-
-def user_form(request):
-    """로그인 뷰 함수"""
-
+def user_login(request):
+    """로그인 뷰 함수."""
     context = """
-        <h1>로그인 페이지</h1>
+        <h1>로그인</h1>
         <table>
             <tr>
                 <th>ID</th>
@@ -26,5 +24,4 @@ def user_form(request):
             </tr>
         </table>
     """
-
     return HttpResponse(context)
