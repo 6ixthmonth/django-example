@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ board.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'board/board_detail.css' %}">
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th class="board-number-th">{{ board.number }}</th>
+            <th class="board-title-th">{{ board.title }}</th>
+            <th class="user-nm-th">{{ board.user.nm }}</th>
+            <th class="board-date-th">{{ board.date }}</th>
+        </tr>
+        <tr>
+            <td class="board-content-td" colspan="4"><pre>{{ board.content|default_if_none:"" }}</pre></td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <table border="1">
+        {% if board.reply_set.all %}
+        {% for reply in board.reply_set.all %}
+        <tr>
+            <td class="reply-content-td">{{ reply.content }}</td>
+            <td class="user-nm-td">{{ reply.user.nm }}</td>
+            <td class="reply-date-td">{{ reply.date }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        <tr>
+            <td class="reply-write-td" colspan="2"><textarea></textarea></td>
+            <td class="reply-btn-td"><input type="button" value="댓글 쓰기"></td>
+        </tr>
+    </table>
+
+    <a href="{% url 'board:list' %}">목록</a>
+</body>
+
+</html>

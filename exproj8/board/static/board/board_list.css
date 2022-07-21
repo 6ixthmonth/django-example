@@ -1,0 +1,41 @@
+h1 {
+    text-align: center;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px 0px;
+}
+
+.board-number-th {
+    width: 100px;
+}
+
+.board-title-th {
+    width: 500px;
+}
+
+.user-nm-th, .board-date-th {
+    width: 200px;
+}
+
+td {
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.reply-count {
+    color: red;
+}
