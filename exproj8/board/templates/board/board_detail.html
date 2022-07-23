@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <title>{{ board.title }}</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'board/board_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/board.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/board_detail.css' %}">
+    <script src="{% static 'board/js/board.js' %}"></script>
 </head>
 
 <body>
@@ -27,19 +29,25 @@
         {% if board.reply_set.all %}
         {% for reply in board.reply_set.all %}
         <tr>
-            <td class="reply-content-td">{{ reply.content }}</td>
+            <td class="reply-content-td"><pre>{{ reply.content }}</pre></td>
             <td class="user-nm-td">{{ reply.user.nm }}</td>
             <td class="reply-date-td">{{ reply.date }}</td>
         </tr>
         {% endfor %}
         {% endif %}
         <tr>
-            <td class="reply-write-td" colspan="2"><textarea></textarea></td>
-            <td class="reply-btn-td"><input type="button" value="댓글 쓰기"></td>
+            <td class="reply-write-td" colspan="3">
+                <textarea></textarea>
+                <input id="write-btn" type="image" src="{% static 'board/images/pencil-button.svg' %}" alt="댓글 쓰기" title="댓글 쓰기">
+            </td>
         </tr>
     </table>
 
-    <a href="{% url 'board:list' %}">목록</a>
+    <div class="container">
+        <a href="{% url 'board:list' %}">
+            <img src="{% static 'board/images/list-button.png' %}" alt="목록" title="목록" width="30" height="30">
+        </a>
+    </div>
 </body>
 
 </html>
