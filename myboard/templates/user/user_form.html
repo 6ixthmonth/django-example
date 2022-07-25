@@ -1,0 +1,17 @@
+{% extends 'common/base.html' %}
+
+{% block title %}
+    사용자 등록
+{% endblock title %}
+
+{% block content %}
+    <h1>사용자 등록</h1>
+    <form method="post" action="{% url 'user:create' %}">
+        {% csrf_token %}
+        <ul>
+            {{ form.as_ul }}
+        </ul>
+        <input type="submit" value="등록">
+    </form>
+{% endblock content %}
+    
