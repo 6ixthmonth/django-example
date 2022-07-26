@@ -15,9 +15,8 @@
     </tr>
 </table>
 <hr>
-<form action="{% url 'board:create_reply' %}" method="post">
+<form action="{% url 'board:create_reply' board_number={{ board.number }} %}" method="post">
     {% csrf_token %}
-    <input type="hidden" name="board_number" value="{{ board.number }}">
     <table border="1">
         {% if board.reply_set.all %}
         {% for reply in board.reply_set.all %}

@@ -15,4 +15,4 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')  # UserCreationForm의 기본 필드 ('username',) 외에 추가로 구성하고 싶은 필드 작성(password1, password2는 필수).
+        fields = ('username', 'first_name', 'last_name', 'email')  # UserCreationForm의 기본 필드 ('username',) 외에 추가로 구성하고 싶은 필드 작성(password1, password2는 자동으로 적용되는 항목).

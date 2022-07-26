@@ -19,18 +19,18 @@ class UserCreateView(CreateView):
 
     # 2. 이 뷰에서 다룰 모델과 필드를 폼 클래스로 한꺼번에 정의하는 방법.
     # from django.contrib.auth.forms import UserCreationForm
-    # form_class = UserCreationForm  # 이 뷰에서 다룰 폼 클래스. 폼에 작성되어 있는 모델과 필드가 자동으로 적용된다. 빌트-인 폼인 UserCreationForm의 경우, ('username', 'password1', 'password2') 필드를 가지고 있다.
+    # form_class = UserCreationForm  # 이 뷰에서 다룰 폼 클래스. 폼에 작성되어 있는 모델과 필드가 자동으로 적용된다. 빌트-인 폼 클래스인 UserCreationForm의 경우, User 모델과 ('username', 'password1', 'password2') 필드를 가지고 있다.
 
     # 2-2. 기존 폼 클래스의 필드 외 표시하고 싶은 필드가 있으면 사용자 정의 폼 클래스를 사용한다.
     from .forms import CustomUserCreationForm
     form_class = CustomUserCreationForm  # 빌트-인 폼 클래스인 UserCreationForm 클래스를 상속하여 구현한 사용자 정의 폼 클래스.
 
-    # GET 요청 시 이동할 페이지 경로 및 파일명.
+    # GET 요청 시 이동할 웹 문서의 경로 및 파일명.
     template_name = "user/user_form.html"  # User 모델을 사용하는 CreateView이기 때문에 기본 값은 'auth/user_form.html'.
 
     # POST 요청 처리 후 리다이렉트할 URL.
-    # success_url = reverse('home')  # urlpatterns 변수가 아직 로딩되지 않아 오류 발생.
-    success_url = reverse_lazy('home')
+    # success_url = reverse('home')  # URLconf 파일이 아직 로딩되지 않아 오류 발생.
+    success_url = reverse_lazy('home')  # 파일 로딩 후 적용.
 
 
 class UserUpdateView(UpdateView):

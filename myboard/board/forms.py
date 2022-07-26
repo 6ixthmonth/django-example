@@ -11,15 +11,3 @@ class BoardForm(ModelForm):
 
         model = Board
         fields = ('title', 'content',)
-
-
-class ReplyForm(ModelForm):
-    """Form definition for Reply."""
-
-    class Meta:
-        """Meta definition for Replyform."""
-
-        model = Reply
-        fields = ('content',)
-
-

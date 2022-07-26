@@ -1,15 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 
 from django.views.generic import ListView, DetailView, CreateView
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-import board
-
 from .models import Board, Reply
-from .forms import BoardForm, ReplyForm
+from .forms import BoardForm
 
 
 class BoardListView(ListView):
@@ -50,10 +49,11 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-def reply_create(request):
+@login_required(login_url=reverse_lazy('user:login'))
+def reply_create(request, board_number):
+    """댓글 작성 뷰."""
     content = request.POST['content']
     user = request.user
-    board_number = request.POST['board_number']
 
     Reply.objects.create(content=content, user=user, board_id=board_number)
 
