@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.BoardListView.as_view(), name="list"),
     path('<int:pk>/', views.BoardDetailView.as_view(), name="detail"),
     path('write/', views.BoardCreateView.as_view(), name='create'),
+    path('reply/', views.reply_create, name='create_reply'),
 ]

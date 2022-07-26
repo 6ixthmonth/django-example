@@ -1,17 +1,47 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-
-# from .forms import CustomUserCreationForm
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 
 class UserCreateView(CreateView):
-    model = User
-    # fields = ['username', 'password']  # 웹 페이지에 렌더링할 필드 목록, form_class와 중복 적용 불가.
-    form_class = UserCreationForm  # 웹 페이지에 렌더링할 폼. fields와 중복 적용 불가.
-    # form_class = CustomUserCreationForm
-    template_name = "user/user_form.html"  # template_name='auth/user_form.html' # User 모델을 사용하는 CreateView이기 때문.
+    """사용자 등록 뷰. 빌트-인 뷰인 CreateView를 상속하여 구현한 사용자 정의 뷰로써, 사용자 등록 페이지로 이동하거나(GET 요청 시), 신규 사용자 데이터를 저장한다(POST 요청 시)."""
 
-    def get_success_url(self) -> str:
-        return reverse_lazy('home')
+    # CreateView는 모델과 필드를 각각 따로 등록하거나, 폼을 이용해서 한꺼번에 등록하여 사용하는 방법이 있다.
+
+    # 1. 이 뷰에서 다룰 모델 클래스와, 웹 페이지에 표시할 필드 목록을 각각 따로 정의하는 방법.
+    # from django.contrib.auth.models import User
+    # model = User  # 이 뷰에서 다룰 모델 클래스. 여기서는 빌트-인 사용자 클래스인 User 클래스를 적용한다.
+    # fields = ['username', 'password']  # 웹 페이지에서 입력받기 위해 표시할 필드 목록. User 클래스가 가진 필드 중 표시하기 원하는 걸 골라서 작성한다.
+
+    # 1-2. 기존 모델 클래스의 필드 외 표시하고 싶은 필드가 있으면 사용자 정의 모델 클래스를 사용한다.
+    # from .models import CustomUser
+    # model = CustomUser  # 빌트-인 모델 클래스인 User 클래스를 상속하여 구현한 사용자 정의 모델 클래스.
+    # fields = ['username', 'password', 'password2']
+
+    # 2. 이 뷰에서 다룰 모델과 필드를 폼 클래스로 한꺼번에 정의하는 방법.
+    # from django.contrib.auth.forms import UserCreationForm
+    # form_class = UserCreationForm  # 이 뷰에서 다룰 폼 클래스. 폼에 작성되어 있는 모델과 필드가 자동으로 적용된다. 빌트-인 폼인 UserCreationForm의 경우, ('username', 'password1', 'password2') 필드를 가지고 있다.
+
+    # 2-2. 기존 폼 클래스의 필드 외 표시하고 싶은 필드가 있으면 사용자 정의 폼 클래스를 사용한다.
+    from .forms import CustomUserCreationForm
+    form_class = CustomUserCreationForm  # 빌트-인 폼 클래스인 UserCreationForm 클래스를 상속하여 구현한 사용자 정의 폼 클래스.
+
+    # GET 요청 시 이동할 페이지 경로 및 파일명.
+    template_name = "user/user_form.html"  # User 모델을 사용하는 CreateView이기 때문에 기본 값은 'auth/user_form.html'.
+
+    # POST 요청 처리 후 리다이렉트할 URL.
+    # success_url = reverse('home')  # urlpatterns 변수가 아직 로딩되지 않아 오류 발생.
+    success_url = reverse_lazy('home')
+
+
+class UserUpdateView(UpdateView):
+    """사용자 정보 수정 뷰."""
+
+    # model = User
+    template_name = "TEMPLATE_NAME"
+
+
+class UserDeleteView(DeleteView):
+    """사용자 탈퇴 뷰."""
+
+    # model = User
+    template_name = "TEMPLATE_NAME"

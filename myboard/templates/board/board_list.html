@@ -4,4 +4,27 @@
 
 {% block content %}
 <h1>게시글 목록</h1>
+<table border="1">
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
+    </tr>
+    {% if board_list %}
+    {% for board in board_list %}
+    <tr>
+        <td>{{ board.number }}</td>
+        <td><a href="{% url 'board:detail' pk=board.number %}">{{ board.title }}</a></td>
+        <td>{{ board.user.username }}</td>
+        <td>{{ board.date }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="4">게시글이 없습니다.</td>
+    </tr>
+    {% endif %}
+</table>
+<a href="{% url 'board:create' %}">게시글 작성</a>
 {% endblock content %}

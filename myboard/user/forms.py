@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django import forms
 
 
@@ -7,8 +8,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class CustomUserCreationForm(UserCreationForm):
-    # 추가하고싶은 폼 필드가 있으면 여기에 클래스 변수 추가
+    """빌트-인 폼 클래스인 UserCreationForm 클래스를 상속하여 구현한 사용자 정의 폼 클래스."""
+
+    # 추가하고 싶은 필드가 있으면 여기에 클래스 변수 추가
+    nickname = forms.CharField(label='닉네임')
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields  # 추가한 필드를 여기에 리스트로 추가
+        fields = ('username', 'first_name', 'last_name', 'email')  # UserCreationForm의 기본 필드 ('username',) 외에 추가로 구성하고 싶은 필드 작성(password1, password2는 필수).

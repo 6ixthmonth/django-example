@@ -3,5 +3,43 @@
 {% block title %}{{ board.title }}{% endblock title %}
 
 {% block content %}
-<h1>{{ board.title }}</h1>
+<table border="1">
+    <tr>
+        <th>{{ board.number }}</th>
+        <th>{{ board.title }}</th>
+        <th>{{ board.user.username }}</th>
+        <th>{{ board.date }}</th>
+    </tr>
+    <tr>
+        <td colspan="4">{{ board.content }}</td>
+    </tr>
+</table>
+<hr>
+<form action="{% url 'board:create_reply' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="board_number" value="{{ board.number }}">
+    <table border="1">
+        {% if board.reply_set.all %}
+        {% for reply in board.reply_set.all %}
+        <tr>
+            <td>{{ reply.content }}</td>
+            <td>{{ reply.user.username }}</td>
+            <td>{{ reply.date }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        <tr>
+            <td colspan="2">
+                <textarea name="content"></textarea>
+            </td>
+            <td>
+                <input type="submit" value="작성">
+            </td>
+        </tr>
+    </table>
+</form>
+<hr>
+<a>수정</a>
+<a>삭제</a>
+<a href="{% url 'board:list' %}">목록</a>
 {% endblock content %}
