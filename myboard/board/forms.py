@@ -1,9 +1,9 @@
-from django.forms import ModelForm
+from django import forms
 
-from .models import Board, Reply
+from .models import Board
 
 
-class BoardForm(ModelForm):
+class BoardForm(forms.ModelForm):
     """Form definition for Board."""
 
     class Meta:
@@ -11,3 +11,7 @@ class BoardForm(ModelForm):
 
         model = Board
         fields = ('title', 'content',)
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'style': 'height:300px; resize:none;'}),
+        }

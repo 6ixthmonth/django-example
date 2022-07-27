@@ -5,7 +5,7 @@ from .models import Board, Reply
 
 class BoardAdmin(admin.ModelAdmin):
     search_fields = ['title']
-    list_display = ('title', 'username', 'date')
+    list_display = ('number', 'title', 'username', 'date')
 
     def username(self, obj):
         return obj.user.username

@@ -4,12 +4,16 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-5.2.0-dist/css/bootstrap.min.css' %}">
 </head>
 
 <body>
     {% include 'common/navbar.html' %}
-    {% block content %}
-    {% endblock content %}
+    <div class="container mt-3 mb-5">
+        {% block content %}
+        {% endblock content %}
+    </div>
 </body>
 
 </html>

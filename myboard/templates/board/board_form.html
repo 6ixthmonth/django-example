@@ -3,9 +3,12 @@
 {% block title %}게시글 작성{% endblock title %}
 
 {% block content %}
-<form method="POST">
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="작성">
+    <div class="d-flex justify-content-center gap-2">
+        <input type="submit" value="작성" class="btn btn-primary">
+        <a class="btn btn-secondary" href="{% url 'board:list' %}">취소</a>
+    </div>
 </form>
 {% endblock content %}

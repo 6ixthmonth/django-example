@@ -10,7 +10,7 @@ urlpatterns = [
     path('write/', views.BoardCreateView.as_view(), name='create'),  # 게시글 작성.
     # 게시글 수정.
     # 게시글 삭제.
-    path('<int:board_number>/reply/write', views.reply_create, name='create_reply'),  # 댓글 작성.
+    path('<int:board_number>/reply/write', views.reply_create, name='reply_create'),  # 댓글 작성.
     # 댓글 수정.
     # 댓글 삭제.
 ]
