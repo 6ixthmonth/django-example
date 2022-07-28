@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from .models import Board, Reply
 from .forms import BoardForm
@@ -35,6 +35,11 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
     template_name = "board/board_form.html"
     # success_url = reverse_lazy('board:list')  # 게시글 작성 후 이동할 URL. 작성된 게시글 상세 페이지로 동적으로 이동할 것이기 때문에 주석 처리.
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_type'] = '작성'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
+        return context
+
     def form_valid(self, form) -> HttpResponse:
         # form_valid(self, form): 전달받은 양식이 유효한 경우 실행되는 함수. 기본적으로 success_url로 리다이렉트 할 뿐인 함수로 구현되어 있다.
 
@@ -65,3 +70,21 @@ def reply_create(request, board_number):
         user = request.user
         Reply.objects.create(content=content, user=user, board_id=board_number)  # 전달받은 데이터를 이용해서 댓글 객체를 생성하고 데이터베이스에 저장한다.
     return redirect('board:detail', pk=board_number)  # 원본 게시글 상세 페이지로 리다이렉트 한다.
+
+
+class BoardUpdateView(UpdateView):
+    """게시글 수정 뷰."""
+
+    model = Board  # model 또는 query_set 필수.
+    form_class = BoardForm  # fields 대신 사용.
+    template_name = "board/board_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['board_type'] = '수정'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
+        return context
+
+    def get_success_url(self) -> str:
+        # 게시글 수정에 성공한 경우, 게시글 상세 페이지로 이동하기 위해 해당 URL을 리턴.
+        # return reverse_lazy('board:detail', args=(self.kwargs['pk'],))
+        return reverse_lazy('board:detail', args=(self.object.number,))

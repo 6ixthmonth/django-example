@@ -52,7 +52,7 @@
 <div class="row">
     <div class="col-6">
         {% if request.user == board.user %}
-        <a class="btn btn-success">수정</a>
+        <a href="{% url 'board:update' pk=board.number %}" class="btn btn-success">수정</a>
         <a class="btn btn-danger">삭제</a>
         {% endif %}
     </div>
