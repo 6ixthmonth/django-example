@@ -1,25 +1,28 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Board, Reply
 from .forms import BoardForm
 
 
+BOARD_PER_PAGE = 10
+
 class BoardListView(ListView):
     """게시글 목록 뷰."""
-    model = Board
-    template_name = "board/board_list.html"
 
-    def get_queryset(self):
-        return Board.objects.order_by('-date')
+    model = Board
+    ordering = '-date'
+    paginate_by = BOARD_PER_PAGE
+    template_name = "board/board_list.html"
 
 
 class BoardDetailView(DetailView):
     """게시글 상세 뷰."""
+
     model = Board
     template_name = "board/board_detail.html"
 
@@ -88,3 +91,11 @@ class BoardUpdateView(UpdateView):
         # 게시글 수정에 성공한 경우, 게시글 상세 페이지로 이동하기 위해 해당 URL을 리턴.
         # return reverse_lazy('board:detail', args=(self.kwargs['pk'],))
         return reverse_lazy('board:detail', args=(self.object.number,))
+
+
+class BoardDeleteView(DeleteView):
+    """게시글 삭제 뷰."""
+
+    model = Board
+    # template_name = "TEMPLATE_NAME"  # 기본 값: 'board/board_confirm_delete.html'
+    success_url = reverse_lazy('board:list')
