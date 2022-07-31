@@ -9,16 +9,35 @@ from .models import Board, Reply
 from .forms import BoardForm
 
 
-BOARD_PER_PAGE = 10
+BOARD_PER_PAGE = 10  # 한 페이지 당 게시글 수.
+
 
 class BoardListView(ListView):
     """게시글 목록 뷰."""
 
     model = Board
-    ordering = '-date'
-    paginate_by = BOARD_PER_PAGE
+    ordering = '-date'  # 정렬 기준 열 이름. 게시글 작성일 역순(최신 글 우선)으로 지정.
+    paginate_by = BOARD_PER_PAGE  # 페이징 처리 시 한 페이지 당 게시글 수.
     template_name = "board/board_list.html"
 
+    def get_queryset(self):
+        # 검색 기능 구현을 위해 게시글을 가져오는 함수를 오버라이딩 한다.
+        search_type = self.request.GET.get('search_type', '')  # 검색 종류
+        search_word = self.request.GET.get('search_word', '')  # 검색어
+        if search_word:
+            if search_type == 'title':
+                print('count:', Board.objects.filter(title__icontains=search_word).count())
+                return Board.objects.filter(title__icontains=search_word).order_by('-date')
+            elif search_type == 'content':
+                print('count:', Board.objects.filter(content__icontains=search_word).count())
+                return Board.objects.filter(content__icontains=search_word).order_by('-date')
+            elif search_type == 'username':
+                print('count:', Board.objects.filter(user__username__icontains=search_word).count())
+                return Board.objects.filter(user__username__icontains=search_word).order_by('-date')
+            else:
+                pass
+        print('else execute')
+        return super().get_queryset()
 
 class BoardDetailView(DetailView):
     """게시글 상세 뷰."""
