@@ -2,8 +2,14 @@
 
 {% block title %}게시글 목록{% endblock title %}
 
+{% block script %}
+{% load static %}
+<script src="{% static 'board/board_list.js' %}"></script>
+{% endblock script %}
+
 {% block content %}
 <div class="h1">게시글 목록</div>
+
 <!-- 게시글 목록 -->
 <table class="table table-striped table-hover text-center">
     <thead class="table-dark">
@@ -21,9 +27,7 @@
             <td>{{ board.number }}</td>
             <td>
                 <a href="{% url 'board:detail' pk=board.number %}">{{ board.title }}</a>
-                {% if board.reply_set.count %}
-                <span class="text-danger">[{{ board.reply_set.count }}]</span>
-                {% endif %}
+                {% if board.reply_set.count %}<span class="text-danger">[{{ board.reply_set.count }}]</span>{% endif %}
             </td>
             <td>{{ board.user.username }}</td>
             <td>{{ board.date }}</td>
@@ -36,20 +40,41 @@
         {% endif %}
     </tbody>
 </table>
+
 <!-- 검색창 -->
-<form class="mb-3">
-    <div class="input-group">
-        <select name="search_type" class="form-select">
-            <option value="">검색</option>
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-            <option value="username">작성자</option>
-        </select>
-        <input type="text" name="search_word" class="form-control">
-        <button type="submit" class="btn btn-primary">검색</button>
+<div class="row">
+    <div class="col-8">
+        <a href="{% url 'board:create' %}" class="btn btn-success">게시글 작성</a>
     </div>
-</form>
-<a href="{% url 'board:create' %}">게시글 작성</a>
+    <div class="col-4">
+        <form id="form_search" class="mb-3">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="hidden" id="page" name="page" value="{{ page }}">
+                <select class="form-select" name="search_type">
+                    <option value="">-</option>
+                    {% if search_type == 'title' %}
+                    <option value="title" selected>제목</option>
+                    {% else %}
+                    <option value="title">제목</option>
+                    {% endif %}
+                    {% if search_type == 'content' %}
+                    <option value="content" selected>내용</option>
+                    {% else %}
+                    <option value="content">내용</option>
+                    {% endif %}
+                    {% if search_type == 'username' %}
+                    <option value="username" selected>작성자</option>
+                    {% else %}
+                    <option value="username">작성자</option>
+                    {% endif %}
+                </select>
+                <input type="text" id="search_word" class="form-control" name="search_word" value="{{ search_word|default_if_none:'' }}" placeholder="검색어">
+                <input type="button" id="btn_search" class="btn btn-dark" value="검색">
+            </div>
+        </form>
+    </div>
+</div>
 
 {% comment %}
 <h1>Page 객체</h1>
@@ -94,65 +119,29 @@
 <ul class="pagination justify-content-center">
     <!-- 이전 페이지 -->
     {% if page_obj.has_previous %}
-    <li class="page-item">
-        <a class="page-link" href="?page=1" aria-label="Previous">
-            <span aria-hidden="true">&lt;&lt;</span>
-        </a>
-    </li>
-    <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-            <span aria-hidden="true">&lt;</span>
-        </a>
-    </li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="1">&lt;&lt;</a></li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.previous_page_number }}">&lt;</a></li>
     {% else %}
-    <li class="page-item disabled">
-        <a class="page-link" tabindex="-1" aria-disabled="true" href="#" aria-label="Previous">
-            <span aria-hidden="true">&lt;&lt;</span>
-        </a>
-    </li>
-    <li class="page-item disabled">
-        <a class="page-link" tabindex="-1" aria-disabled="true" href="#" aria-label="Previous">
-            <span aria-hidden="true">&lt;</span>
-        </a>
-    </li>
+    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&lt;&lt;</a></li>
+    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&lt;</a></li>
     {% endif %}
     <!-- 페이지 목록 -->
     {% for page_number in page_obj.paginator.page_range %}
     {% if page_number >= page_obj.number|add:-5 and page_number <= page_obj.number|add:5 %}
     {% if page_number == page_obj.number %}
-    <li class="page-item active" aria-current="page">
-        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-    </li>
+    <li class="page-item active"><a class="page-link" href="javascript:void(0)" data-page="{{ page_number }}">{{ page_number }}</a></li>
     {% else %}
-    <li class="page-item">
-        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-    </li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_number }}">{{ page_number }}</a></li>
     {% endif %}
     {% endif %}
     {% endfor %}
     <!-- 다음 페이지 -->
     {% if page_obj.has_next %}
-    <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-            <span aria-hidden="true">&gt;</span>
-        </a>
-    </li>
-    <li class="page-item">
-        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
-            <span aria-hidden="true">&gt;&gt;</span>
-        </a>
-    </li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.next_page_number }}">&gt;</a></li>
+    <li class="page-item"><a class="page-link" href="javascript:void(0)" data-page="{{ page_obj.paginator.num_pages }}">&gt;&gt;</a></li>
     {% else %}
-    <li class="page-item disabled">
-        <a class="page-link" tabindex="-1" aria-disabled="true" href="#" aria-label="Next">
-            <span aria-hidden="true">&gt;</span>
-        </a>
-    </li>
-    <li class="page-item disabled">
-        <a class="page-link" tabindex="-1" aria-disabled="true" href="#" aria-label="Next">
-            <span aria-hidden="true">&gt;&gt;</span>
-        </a>
-    </li>
+    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&gt;</a></li>
+    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">&gt;&gt;</a></li>
     {% endif %}
 </ul>
 <!-- 페이징처리 끝 -->

@@ -7,7 +7,11 @@
     {% csrf_token %}
     {{ form.as_p }}
     <div class="d-flex justify-content-center gap-2">
-        <input type="submit" value="{{ board_type }}" class="btn btn-primary">
+        {% if board_type == '작성' %}
+        <input type="submit" value="{{ board_type }}" class="btn btn-success">
+        {% else %}
+        <input type="submit" value="{{ board_type }}" class="btn btn-warning">
+        {% endif %}
         <a class="btn btn-secondary" href="{% url 'board:list' %}">취소</a>
     </div>
 </form>

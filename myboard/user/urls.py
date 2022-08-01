@@ -21,9 +21,9 @@ urlpatterns = [
     path('join/', views.UserCreateView.as_view(), name='create'),
 
     # 사용자 정보 수정 뷰를 연결하는 URL 패턴.
-    # path('update/', ?, name='update'),
+    path('edit/<int:pk>', views.UserUpdateView.as_view(), name='update'),
 
     # 사용자 탈퇴 뷰를 연결하는 URL 패턴.
-    # path('delete', ?, name='delete'),
+    path('withdraw/<int:pk>', views.UserDeleteView.as_view(), name='delete'),
 
 ]

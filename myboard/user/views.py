@@ -32,16 +32,33 @@ class UserCreateView(CreateView):
     # success_url = reverse('home')  # URLconf 파일이 아직 로딩되지 않아 오류 발생.
     success_url = reverse_lazy('home')  # 파일 로딩 후 적용.
 
+    
+    def get_context_data(self, **kwargs):
+        context = super(UserCreateView, self).get_context_data(**kwargs)
+        context['user_type'] = '등록'
+        return context
+
 
 class UserUpdateView(UpdateView):
-    """사용자 정보 수정 뷰."""
+    """사용자 정보 변경 뷰."""
 
-    # model = User
-    template_name = "TEMPLATE_NAME"
+    from django.contrib.auth.models import User
+    model = User
+    from .forms import CustomUserChangeForm
+    form_class = CustomUserChangeForm
+
+    template_name = "user/user_form.html"
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(UserUpdateView, self).get_context_data(**kwargs)
+        context['user_type'] = '정보 변경'
+        return context
 
 
 class UserDeleteView(DeleteView):
     """사용자 탈퇴 뷰."""
 
-    # model = User
-    template_name = "TEMPLATE_NAME"
+    from django.contrib.auth.models import User
+    model = User
+    success_url = reverse_lazy('home')

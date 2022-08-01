@@ -13,7 +13,7 @@ BOARD_PER_PAGE = 10  # 한 페이지 당 게시글 수.
 
 
 class BoardListView(ListView):
-    """게시글 목록 뷰."""
+    """게시글 목록 뷰. 기본적으로 model, ordering, template_name 속성만 작성해도 되지만 검색 및 페이징 기능을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
 
     model = Board
     ordering = '-date'  # 정렬 기준 열 이름. 게시글 작성일 역순(최신 글 우선)으로 지정.
@@ -22,32 +22,39 @@ class BoardListView(ListView):
 
     def get_queryset(self):
         # 검색 기능 구현을 위해 게시글을 가져오는 함수를 오버라이딩 한다.
-        search_type = self.request.GET.get('search_type', '')  # 검색 종류
-        search_word = self.request.GET.get('search_word', '')  # 검색어
+        search_type = self.request.GET.get('search_type', '')  # 검색 종류.
+        search_word = self.request.GET.get('search_word', '')  # 검색어.
         if search_word:
             if search_type == 'title':
-                print('count:', Board.objects.filter(title__icontains=search_word).count())
                 return Board.objects.filter(title__icontains=search_word).order_by('-date')
             elif search_type == 'content':
-                print('count:', Board.objects.filter(content__icontains=search_word).count())
                 return Board.objects.filter(content__icontains=search_word).order_by('-date')
             elif search_type == 'username':
-                print('count:', Board.objects.filter(user__username__icontains=search_word).count())
                 return Board.objects.filter(user__username__icontains=search_word).order_by('-date')
             else:
                 pass
-        print('else execute')
-        return super().get_queryset()
+        return super().get_queryset()  # 검색을 요청한 경우가 아니면 모든 게시글을 가져와서 반환한다.
+    
+    def get_context_data(self, **kwargs):
+        # 검색 기능에 페이징 기능을 적용하기 위해 전달받은 검색 종류, 검색어를 다시 응답한다.
+        context = super(BoardListView, self).get_context_data(**kwargs)
+        search_type = self.request.GET.get('search_type', '')  # 전달받은 검색 종류를 가져온다.
+        search_word = self.request.GET.get('search_word', '')  # 전달받은 검색어를 가져온다.
+        if search_type and search_word:
+            context['search_type'] = search_type  # 콘텍스트에 검색 종류를 입력하여 템플릿으로 전달한다.
+            context['search_word'] = search_word  # 콘텍스트에 검색어를 입력하여 템플릿으로 전달한다.
+        return context
+    
 
 class BoardDetailView(DetailView):
-    """게시글 상세 뷰."""
+    """게시글 상세 뷰. model, template_name 속성 외에 추가로 작성할 속성은 없으며, 전달받은 기본 키 값(Board 객체의 number 필드)에 해당하는 Board 객체를 찾아서 반환한다."""
 
     model = Board
     template_name = "board/board_detail.html"
 
 
 class BoardCreateView(LoginRequiredMixin, CreateView):
-    """게시글 작성 뷰."""
+    """게시글 작성 뷰. 기본적으로 form_class, template_name, success_url 속성만 작성해도 되지만 파일 업로드 기능 등을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
 
     # LoginRequiredMixin: 이 클래스 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 Mixin 클래스. 로그인 하지 않고 요청을 시도하면 지정된 URL로 리다이렉트 한다.
     login_url = reverse_lazy('user:login')  # 로그인 하지 않은 사용자가 요청한 경우 리다이렉트 할 URL. 즉, 로그인 페이지의 URL을 작성한다. 기본 값은 '/accounts/login/'.
@@ -62,10 +69,10 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
         context['board_type'] = '작성'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
         return context
 
-    def form_valid(self, form) -> HttpResponse:
-        # form_valid(self, form): 전달받은 양식이 유효한 경우 실행되는 함수. 기본적으로 success_url로 리다이렉트 할 뿐인 함수로 구현되어 있다.
+    def form_valid(self, form):
+        # 전달받은 양식이 유효한 경우 실행되는 함수. 기본적으로 success_url로 리다이렉트 할 뿐인 함수로 구현되어 있다.
 
-        # form 매개변수와 주요 특징.
+        # form 매개변수와 주요 속성.
         # form: board.forms.BoardForm 객체. 페이지에서 전달한 양식 데이터와 각종 메타 데이터를 가지고 있다.
         # form.instance: board.models.Board 객체. 양식 데이터를 모델화한 객체.
         # form.data: 양식과 관련된 모든 데이터를 담은 사전 객체. 일반적인 경우 사용하지 않는다.
@@ -77,9 +84,9 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 
         # return super().form_valid(form)  # success_url로 리다이렉트 하는 기존 구현.
         # return redirect(reverse_lazy('board:detail', args=(form.instance.number,)))  # 저장 후 생성된 게시글 번호 PK값을 가지고 게시글 상세 페이지로 리다이렉트.
-        return redirect(reverse_lazy('board:detail', kwargs={'pk': form.instance.number}))  # 게시글 상세 페이지로 리다이렉트.
+        return redirect(reverse_lazy('board:detail', kwargs={'pk': form.instance.number}))  # 생성된 게시글의 상세 페이지로 리다이렉트.
 
-    def form_invalid(self, form) -> HttpResponse:
+    def form_invalid(self, form):
         # 전달받은 양식이 유효하지 않는 경우 실행되는 함수.
         return super().form_invalid(form)
 
