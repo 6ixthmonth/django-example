@@ -24,6 +24,17 @@
         <tr>
             <td class="align-top" colspan="4" style="height:240px; white-space:pre-line;">{{ board.content }}</td>
         </tr>
+        
+        {% if board.attached_file %}
+        <tr>
+            <td colspan="4">
+                <a href="{% url 'board:download' board_number=board.number %}">
+                    <img src="{% get_media_prefix %}{{ board.attached_file }}"><p>{{ board.original_file_name }}</p>
+                </a>
+            </td>
+        </tr>
+        {% endif %}
+            
     </tbody>
 </table>
 

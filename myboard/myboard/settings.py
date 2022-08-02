@@ -125,7 +125,15 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Media files
+
+MEDIA_ROOT = BASE_DIR / 'media'  # 사용자가 업로드한 파일을 저장하는 경로.
+
+MEDIA_URL = 'media/'  # 파일을 찾을 때 사용할 URL.

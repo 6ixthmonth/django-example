@@ -13,6 +13,8 @@ class Board(models.Model):
     content = models.TextField(verbose_name='내용')  # 게시글 내용.
     date = models.DateTimeField(default=timezone.now)  # 게시글 작성일.
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 게시글 작성자.
+    attached_file = models.FileField(upload_to='board/%Y-%m-%d/', null=True)  # 첨부 파일. upload_to 폴더에 저장한다.
+    original_file_name = models.CharField(max_length=260, null=True)  # 원본 파일 이름.
 
     def __str__(self) -> str:
         return shorten(self.title, width=20, placeholder='...')
