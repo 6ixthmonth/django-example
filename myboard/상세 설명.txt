@@ -1,3 +1,49 @@
+# MYSQL 연동 방법
+1. 드라이버 설치
+  - MySQL DB API Drivers를 설치한다. `mysqlclient`와 `MySQL Connector/Python` 두 종류가 있는데 전자를 추천한다.
+  - pip를 통해 설치한다.
+```shell
+py -m pip install mysqlclient
+```
+
+2. 데이터베이스 접속 정보 설정
+  - 데이터베이스 종류, 데이터베이스 이름, 접속할 때 사용할 사용자 이름, 비밀번호 등을 설정한다.
+```python
+# settings.py
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.mysql',  # 데이터베이스 종류.
+        'NAME': 'myboard',  # 데이터베이스 이름.
+        'USER': 'root',  # 접속할 때 사용할 사용자 이름.
+        'PASSWORD': 'password',  # 비밀번호
+        'HOST': 'localhost',  # 데이터베이스가 위치한 컴퓨터의 IP 주소.
+        'PORT': '3306',  # 포트 번호.
+    }
+}
+```
+또는,
+```python
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': str(BASE_DIR / 'my.cnf'),
+        },
+    },
+}
+# my.cnf
+[client]
+database = myboard
+user = root
+password = 1234
+default-character-set = utf8
+```
+
+3. urls.py
+
+***
+
 templates, static 디렉토리
 django.contrib.auth.models.User
 클래스 기반 뷰
