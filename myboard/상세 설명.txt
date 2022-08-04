@@ -40,14 +40,35 @@ password = 1234
 default-character-set = utf8
 ```
 
-3. urls.py
+3. 데이터베이스 접속
+  - 테이블을 직접 만들거나 모델 작성 후 `migrate` 명령어를 통해 자동으로 생성한다.
+  - 모델의 설정대로 데이터베이스의 테이블을 조작할 수 있다.
 
 ***
 
-templates, static 디렉토리
-django.contrib.auth.models.User
-클래스 기반 뷰
-폼
-페이징
-검색
-파일 업로드 및 다운로드
+# 템플릿/정적 파일 공통 경로 설정
+- 템플릿/정적 파일을 저장하는 폴더는 각 앱 하위의 폴더로 설정하는 것도 가능하지만, 모든 앱이 공통으로 사용할 수 있게 상위 폴더를 생성하여 설정할 수도 있다.
+1. 템플릿 파일
+  - settings.py 파일에서 TEMPLATES 설정을 변경한다.
+  - 설정한 경로에 폴더를 생성하여 템플릿 파일을 저장한다.
+```python
+# settings.py
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [BASE_DIR / 'templates'],
+        ...
+    },
+]
+```
+
+2. 정적 파일
+  - settings.py 파일에서 STATICFILES_DIRS 설정을 변경한다.
+  - 설정한 경로에 폴더를 생성하여 정적 파일을 저장한다.
+```python
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+```
+
+***
