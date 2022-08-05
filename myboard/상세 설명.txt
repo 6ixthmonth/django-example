@@ -72,3 +72,27 @@ STATICFILES_DIRS = [
 ```
 
 ***
+
+# 클래스 기반 뷰
+
+***
+
+# 폼
+
+***
+
+# django.contrib.auth.models.User
+- 장고에서 기본적으로 제공하는 사용자 모델이다.
+- 필수 필드로 username, password 필드가 있고, 그밖에도 선택적 필드로 first_name, last_name, email 등이 있다.
+- 해당 모델을 기존의 뷰 또는 폼에서 사용할 수 있고, 혹은 상속하는 클래스를 작성하여 원하는 대로 커스터마이징 할 수도 있다.
+- 항상 user 변수명으로 세션에 저장되어 있다.
+- user.is_authenticated 속성을 통해 로그인 여부를 확인할 수 있다.
+  - 로그인 뷰를 통해 로그인 한 사용자의 경우 True를 반환한다.
+- 해당 모델을 지원하기 위해 LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView 등을 제공한다.
+- 해당 모델을 지원하기 위해 UserCreationForm, UserChangeForm, PasswordChangeForm 등을 제공한다.
+
+***
+
+페이징
+검색
+파일 업로드 및 다운로드
