@@ -99,6 +99,45 @@ STATICFILES_DIRS = [
 
 ***
 
-페이징
+# 페이징
+- 장고에서 제공하는 Paginator 클래스를 사용하여 페이징 기능을 구현할 수 있다.
+- 클래스 뷰에서 paginated_by 속성을 작성하면 자동으로 Page 객체를 생성하여 템플릿으로 전달한다.
+- 템플릿에서 사용할 수 있는 Page 객체의 속성은 다음과 같다.
+<ul>
+    <li>
+        <h2>메소드</h2>
+        <ul>
+            <li>page_obj: Page 객체. {{ page_obj }}</li>
+            <li>page_obj.has_next(): 다음 페이지가 있으면 True. 없으면 오류 발생. {{ page_obj.has_next }}</li>
+            <li>page_obj.has_previous(): 이전 페이지가 있으면 True. {{ page_obj.has_previous }}</li>
+            <li>page_obj.has_other_pages(): 이전 혹은 다음 페이지가 있으면 True. {{ page_obj.has_other_pages }}</li>
+            <li>page_obj.next_page_number(): 다음 페이지 번호. {{ page_obj.next_page_number }}</li>
+            <li>page_obj.previous_page_number(): 이전 페이지 번호. {{ page_obj.previoust_page_number }}</li>
+            <li>page_obj.start_index(): 이 페이지의 첫 번째 객체의 인덱스. {{ page_obj.start_index }}</li>
+            <li>page_obj.end_index(): 이 페이지의 마지막 객체의 인덱스. {{ page_obj.end_index }}</li>
+        </ul>
+    </li>
+    <li>
+        <h2>속성</h2>
+        <ul>
+            <li>page_obj.object_list: 이 페이지의 객체 목록. {{ page_obj.object_list }}</li>
+            <li>page_obj.number: 이 페이지의 번호. {{ page_obj.number }}</li>
+            <li>page_obj.paginator: 관련 Paginator 객체. {{ page_obj.paginator }}</li>
+        </ul>
+    </li>
+    <li>
+        <h2>Paginator 객체</h2>
+        {% with page_obj.paginator as paginator %}
+        <ul>
+            <li>paginator.object_list: 전체 페이지의 모든 객체 목록. {{ paginator.object_list }}</li>
+            <li>paginator.per_page: 이 페이지의 최대 항목 수. {{ paginator.per_page }}</li>
+            <li>paginator.count: 전체 페이지의 모든 객체 수. {{ paginator.count }}</li>
+            <li>paginator.num_pages: 총 페이지 수. {{ paginator.num_pages }}</li>
+            <li>paginator.page_range: 전체 페이지 range 객체. {{ paginator.page_range }}</li>
+        </ul>
+        {% endwith %}
+    </li>
+</ul>
+
 검색
 파일 업로드 및 다운로드
