@@ -158,4 +158,16 @@ STATICFILES_DIRS = [
 
 # 파일 업로드 및 다운로드
 ## 파일 업로드
+1. settings.py 업로드 경로 및 URL 설정.
+- MEDIA_ROOT: 파일 저장 경로.
+- MEDIA_URL: 업로드/다운로드 시 요청 URL.
+
+2. urls.py 설정
+- 루트 URLconf 파일에서 MEDIA_ROOT 및 MEDIA_URL 등록.
+```python
+urlpatterns = [
+    ...
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
 ## 파일 다운로드
