@@ -162,12 +162,21 @@ STATICFILES_DIRS = [
 - MEDIA_ROOT: 파일 저장 경로.
 - MEDIA_URL: 업로드/다운로드 시 요청 URL.
 
-2. urls.py 설정
+2. urls.py 스태틱 경로 및 URL 추가
 - 루트 URLconf 파일에서 MEDIA_ROOT 및 MEDIA_URL 등록.
 ```python
 urlpatterns = [
     ...
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+3. models.py 파일 필드 설정
+- 파일 업로드를 담당하는 모델 클래스에 파일 필드를 작성한다.
+- 파일 필드 추가 후 migrate 명령어를 실행하여 데이터베이스의 테이블에 적용한다.
+```python
+class Board(models.Model):
+    ...
+    attached_file = models.FileField(upload_to='board/%Y-%m-%d/', null=True)
 ```
 
 ## 파일 다운로드
