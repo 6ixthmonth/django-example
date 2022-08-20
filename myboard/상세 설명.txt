@@ -188,4 +188,11 @@ class BoardForm(forms.ModelForm):
     ...
 ```
 
+5. views.py 파일 처리
+- 전달된 파일은 request.FILES 안에 저장되어 있다. 필요한 경우 꺼내서 작업한다.
+- 전달받은 폼을 저장하면 자동으로 파일 또한 지정된 media 경로에 저장한다.
+
+6. 템플릿 설정
+- form 태그에 enctype="multipart/form-data" 설정을 추가하여 파일 전송 설정을 한다.
+
 ## 파일 다운로드
