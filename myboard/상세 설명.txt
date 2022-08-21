@@ -196,3 +196,16 @@ class BoardForm(forms.ModelForm):
 - form 태그에 enctype="multipart/form-data" 설정을 추가하여 파일 전송 설정을 한다.
 
 ## 파일 다운로드
+- 파일을 가져와서 django.http.FileResponse에 담아서 응답한다.
+- Content-Disposition 설정을 추가하여 첨부 파일명을 적용한다.
+```python
+def file_download(request, board_number):
+    board = Board.objects.get(pk=board_number)
+    attached_file = board.attached_file
+    original_file_name = board.original_file_name
+
+    response = FileResponse(attached_file)
+    response['Content-Disposition'] = 'attachment; filename=%s' % original_file_name
+
+    return response
+```
