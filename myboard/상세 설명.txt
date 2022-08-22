@@ -32,6 +32,8 @@ DATABASES = {
         },
     },
 }
+```
+```
 # my.cnf
 [client]
 database = myboard
@@ -41,7 +43,7 @@ default-character-set = utf8
 ```
 
 3. 데이터베이스 접속
-  - 테이블을 직접 만들거나 모델 작성 후 `migrate` 명령어를 통해 자동으로 생성한다.
+  - 테이블을 직접 만들거나, 모델 작성 후 `migrate` 명령어를 통해 자동으로 생성한다.
   - 모델의 설정대로 데이터베이스의 테이블을 조작할 수 있다.
 
 ***
@@ -70,16 +72,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 ```
-
-***
-
-# 클래스 기반 뷰(Class-based View) 및 제네릭 뷰(Generic View)
-- 함수를 사용해서 뷰를 만들 수도 있지만 클래스를 사용해서 또한 만들 수도 있으며, 이를 클래스 기반 뷰(Class-based View)라고 한다.
-- 장고에서는 클래스 기반 뷰를 구현하기 위해 미리 만들어둔 클래스를 제공하며, 이를 제네릭 뷰(Generic View)라고 한다.
-- 제공되는 클래스를 바로 사용할 수도 있고 상속하는 클래스를 만들어서 원하는대로 커스터마이징 할 수도 있다.
-- 사용자 로그인 및 로그아웃은 제공되는 클래스인 django.contrib.auth.LoginView 및 LogoutView 클래스를 바로 사용했다.
-- 사용자 등록, 정보 수정, 탈퇴는 django.views.generic.CreateView, UpdateView, DeleteView 클래스를 상속하는 클래스를 만들어서 사용했다.
-- 게시글 목록, 상세, 작성, 수정, 삭제 또한 제네릭 뷰 클래스를 상속하는 클래스를 만들어서 사용했다.
 
 ***
 
