@@ -1,6 +1,8 @@
 # 개요 및 목표
 - 이 프로젝트는 템플릿에 대해 다룬다.
-- 이전 프로젝트와 비교해서 새로운 템플릿이 여럿 추가되었고 이에 따라 URLconf 파일과 뷰 파일 또한 수정되었다.
+- board 앱에 templates 폴더를 추가해서 board_list.html과 board_detail.html 파일을 작성했다.
+- user 앱에 templates 폴더를 추가해서 home.html, user_create.html과 user_login.html 파일을 작성했다.
+- 각 앱의 URL 구성 파일과 뷰 함수를 수정했다.
 - 올바르게 따라한다면 이 프로젝트와 유사한 결과물을 얻을 수 있다.
 
 
