@@ -1,5 +1,8 @@
 # 개요 및 목표
-- 이 프로젝트는 템플릿에 대해 다룬다.
+- 이 프로젝트는 이전의 예제 프로젝트에서 이어서 진행하며, 다음과 같은 내용을 주로 다룬다.
+  - 템플릿.
+  - 템플릿 언어 문법.
+  - 이름공간을 통한 URL 관리.
 - board 앱에 templates 폴더를 추가해서 board_list.html과 board_detail.html 파일을 작성했다.
 - user 앱에 templates 폴더를 추가해서 home.html, user_create.html과 user_login.html 파일을 작성했다.
 - 각 앱의 URL 구성 파일과 뷰 함수를 수정했다.
