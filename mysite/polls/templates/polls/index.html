@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>설문 목록</title>
+    <title>설문조사 목록</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 </head>
 
 <body>
-    <h1>설문 목록</h1>
+    <h1>설문조사 목록</h1>
 
     {# 조건문을 통해 백엔드에서 전달된 데이터가 있는지 확인한다. #}
     {% if latest_question_list %}
@@ -29,7 +29,7 @@
         {% endfor %}
     </ul>
     {% else %}
-    <p>등록된 설문이 존재하지 않습니다.</p>
+    <p>등록된 설문조사가 존재하지 않습니다.</p>
     {% endif %}
 </body>
 

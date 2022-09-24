@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>설문 결과</title>
+    <title>설문조사 결과</title>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
 
     <ul>
         {% for choice in question.choice_set.all %}
-        <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+        <li>{{ choice.choice_text }} -- {{ choice.votes }} 회</li>
         {% endfor %}
     </ul>
 

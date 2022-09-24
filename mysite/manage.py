@@ -2,7 +2,7 @@
 """
 관리 작업을 위한 장고의 명령 줄 유틸리티.
 서버를 실행하거나 앱을 생성하는 등, 장고 프로젝트를 관리하기 위해 다양한 기능을 제공한다.
-기능을 실행하려면 이 스크립트 파일을 명령어와 함께 명령 프롬프트에서 실행한다. ex) python manage.py [명령어]
+기능을 실행하려면 이 스크립트 파일을 명령어와 함께 명령 프롬프트에서 실행한다. ex) py manage.py [명령어]
 """
 
 
@@ -13,7 +13,7 @@ import sys
 def main():
     """관리 작업을 실행하는 함수."""
 
-    # 환경 설정 파일(mysite 폴더에 있는 settings.py 파일)을 세팅한다.
+    # 환경 설정 파일(mysite 폴더에 있는 settings.py 파일)을 적용한다.
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 
     try:

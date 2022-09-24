@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>설문 상세</title>
+    <title>설문조사 상세</title>
 </head>
 
 <body>
@@ -19,10 +19,10 @@
             <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
             {% endfor %}
         </fieldset>
-        <input type="submit" value="Vote">
+        <input type="submit" value="선택">
     </form>
 
-    <a href="{% url 'polls:index' %}">Back</a>
+    <a href="{% url 'polls:index' %}">목록</a>
 </body>
 
 </html>

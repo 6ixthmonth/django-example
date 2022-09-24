@@ -94,7 +94,7 @@ def vote(request, question_id):
         # 오류 발생 시 질문 투표 양식을 다시 보여준다.
         return render(request, 'polls/detail.html', {
             'question': question,
-            'error_message': "You didn't select a choice.",
+            'error_message': "선택을 하지 않으셨습니다.",
         })
     else:
         selected_choice.votes += 1
