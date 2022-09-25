@@ -1,8 +1,8 @@
 """
-핵심 URL구성(URLconf) 파일.
+root URL구성(URLconf) 파일.
 
-urlpatterns 변수에 요청 URL과 이를 처리할 뷰를 목록으로 묶어 저장한다.
-path() 함수에 요청 URL 문자열 값과 이를 처리할 뷰 함수(클래스) 또는 다른 URL구성 파일을 작성한다.
+urlpatterns 목록 변수에 URL 패턴을 기록한다. 이 변수의 이름은 반드시 urlpatterns여야만 한다.
+URL 패턴은 path() 함수를 통해 요청 URL 문자열 값과 이를 처리할 뷰 함수(클래스) 또는 다른 URL구성 파일을 작성한다.
 
 하단의 링크를 통해 장고에서 요청을 처리하는 절차에 대해 자세히 확인할 수 있다.
 https://docs.djangoproject.com/en/4.0/topics/http/urls/
