@@ -40,7 +40,7 @@ def user_logout(request):
 
 ## form 태그를 통한 데이터 전송 및 처리
 - action 속성에 url 태그를 사용할 수 있다.
-- csrf_token 태그를 으레 적용하곤 한다.
+- csrf_token 태그를 통해 토큰 값을 제시해야 한다.
   - csrf: 사이트 간 요청 위조(Cross Site Request Forgeries). 변조된 웹 페이지를 통해 사용자의 요청을 위조하여 공격하는 방식.
 - 뷰 함수에서 HttpRequest 객체로부터 GET 또는 POST 속성을 호출하여 제출된 양식 데이터를 꺼내올 수 있다.
 - 처리 후 사용자가 브라우저에서 뒤로 가기 클릭 시 요청이 중복 발생하는 것을 방지하기 위해 리다이렉트로 처리할 것을 권장한다.
