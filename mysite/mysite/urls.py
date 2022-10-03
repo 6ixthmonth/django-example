@@ -1,5 +1,5 @@
 """
-root URL구성(URLconf) 파일.
+최상위 URL구성(URLconf) 파일.
 
 urlpatterns 목록 변수에 URL 패턴을 기록한다. 이 변수의 이름은 반드시 urlpatterns여야만 한다.
 URL 패턴은 path() 함수를 통해 요청 URL 문자열 값과 이를 처리할 뷰 함수(클래스) 또는 다른 URL구성 파일을 작성한다.

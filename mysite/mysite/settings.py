@@ -72,7 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ROOT_URLCONF: 요청 URL을 처리할 때 사용하기 위한, 핵심 URL구성(URLconf) 파일의 위치.
+# ROOT_URLCONF: 요청 URL을 처리할 때 사용하기 위한, 최상위 URL구성(URLconf) 파일의 위치.
 # 장고에서 요청을 처리하는 과정.
 # https://docs.djangoproject.com/en/4.0/topics/http/urls/#how-django-processes-a-request
 ROOT_URLCONF = 'mysite.urls'
