@@ -37,6 +37,9 @@ def user_logout(request):
     ...
     del request.session['user_nm']  # 세션에서 user_nm 데이터 삭제.
 ```
+```Jinja
+{{ request.session.user_nm }}
+```
 
 ## form 태그를 통한 데이터 전송 및 처리
 - action 속성에 url 태그를 사용할 수 있다.
