@@ -173,8 +173,8 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 - MEDIA_ROOT: 파일 저장 경로.
 - MEDIA_URL: 업로드/다운로드 시 요청 URL.
 
-2. urls.py 스태틱 경로 및 URL 추가
-- 루트 URLconf 파일에서 MEDIA_ROOT 및 MEDIA_URL 등록.
+2. urls.py 정적 경로 및 URL 추가
+- 최상위 URLconf 파일에서 MEDIA_ROOT 및 MEDIA_URL 등록.
 ```python
 urlpatterns = [
     ...
