@@ -49,7 +49,7 @@ default-character-set = utf8
 ***
 
 # 템플릿/정적 파일 공통 경로 설정
-- 템플릿/정적 파일을 저장하는 폴더는 각 앱 하위의 폴더로 설정하는 것도 가능하지만, 모든 앱이 공통으로 사용할 수 있게 상위 폴더를 생성하여 설정할 수도 있다.
+- 템플릿/정적 파일을 저장하는 폴더는 각 앱 내 폴더에 설정하는 것도 가능하지만, 모든 앱에서 공통으로 사용할 수 있게 상위 폴더를 생성하여 설정할 수도 있다.
 1. 템플릿 파일
   - settings.py 파일에서 TEMPLATES 설정을 변경한다.
   - 설정한 경로에 폴더를 생성하여 템플릿 파일을 저장한다.
@@ -65,7 +65,7 @@ TEMPLATES = [
 ```
 
 2. 정적 파일
-  - settings.py 파일에서 STATICFILES_DIRS 설정을 변경한다.
+  - settings.py 파일에서 STATICFILES_DIRS 설정을 추가한다.
   - 설정한 경로에 폴더를 생성하여 정적 파일을 저장한다.
 ```python
 # settings.py
@@ -176,6 +176,7 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 2. urls.py 정적 경로 및 URL 추가
 - 최상위 URLconf 파일에서 MEDIA_ROOT 및 MEDIA_URL 등록.
 ```python
+from django.conf.urls.static import static
 urlpatterns = [
     ...
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

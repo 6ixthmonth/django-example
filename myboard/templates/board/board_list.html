@@ -47,32 +47,32 @@
         <a href="{% url 'board:create' %}" class="btn btn-success">게시글 작성</a>
     </div>
     <div class="col-4">
-        <form id="form_search" class="mb-3">
-            {% csrf_token %}
-            <div class="input-group">
-                <input type="hidden" id="page" name="page" value="{{ page }}">
-                <select class="form-select" name="search_type">
-                    <option value="">-</option>
-                    {% if search_type == 'title' %}
-                    <option value="title" selected>제목</option>
-                    {% else %}
-                    <option value="title">제목</option>
-                    {% endif %}
-                    {% if search_type == 'content' %}
-                    <option value="content" selected>내용</option>
-                    {% else %}
-                    <option value="content">내용</option>
-                    {% endif %}
-                    {% if search_type == 'username' %}
-                    <option value="username" selected>작성자</option>
-                    {% else %}
-                    <option value="username">작성자</option>
-                    {% endif %}
-                </select>
-                <input type="text" id="search_word" class="form-control" name="search_word" value="{{ search_word|default_if_none:'' }}" placeholder="검색어">
-                <input type="button" id="btn_search" class="btn btn-dark" value="검색">
-            </div>
-        </form>
+<form id="form_search" class="mb-3">
+    {% csrf_token %}
+    <div class="input-group">
+        <input type="hidden" id="page" name="page" value="{{ page }}">
+        <select class="form-select" name="search_type">
+            <option value="">-</option>
+            {% if search_type == 'title' %}
+            <option value="title" selected>제목</option>
+            {% else %}
+            <option value="title">제목</option>
+            {% endif %}
+            {% if search_type == 'content' %}
+            <option value="content" selected>내용</option>
+            {% else %}
+            <option value="content">내용</option>
+            {% endif %}
+            {% if search_type == 'username' %}
+            <option value="username" selected>작성자</option>
+            {% else %}
+            <option value="username">작성자</option>
+            {% endif %}
+        </select>
+        <input type="text" id="search_word" class="form-control" name="search_word" value="{{ search_word|default_if_none:'' }}" placeholder="검색어">
+        <input type="button" id="btn_search" class="btn btn-dark" value="검색">
+    </div>
+</form>
     </div>
 </div>
 

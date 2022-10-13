@@ -12,7 +12,7 @@ from .forms import BoardForm
 BOARD_PER_PAGE = 10  # 한 페이지 당 게시글 수.
 
 class BoardListView(ListView):
-    """게시글 목록 뷰. 기본적으로 model, ordering, template_name 속성만 작성해도 되지만 검색 및 페이징 기능을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
+    """게시글 목록 뷰. 기본적으로 model 속성만 작성해도 되지만 검색 및 페이징 기능을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
 
     model = Board
     ordering = '-date'  # 정렬 기준 열 이름. 게시글 작성일 역순(최신 글 우선)으로 지정.
