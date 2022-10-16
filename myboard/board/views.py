@@ -1,29 +1,27 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import FileResponse
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Board, Reply
 from .forms import BoardForm
 
 
-BOARD_PER_PAGE = 10  # 한 페이지 당 게시글 수.
+BOARD_PER_PAGE = 10  # 게시글 목록 페이지에서 한 페이지 당 표시할 게시글 수.
+
 
 class BoardListView(ListView):
-    """게시글 목록 뷰. 기본적으로 model 속성만 작성해도 되지만 검색 및 페이징 기능을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
+    """게시글 목록 뷰 클래스."""
 
-    model = Board
-    ordering = '-date'  # 정렬 기준 열 이름. 게시글 작성일 역순(최신 글 우선)으로 지정.
-    paginate_by = BOARD_PER_PAGE  # 페이징 처리 시 한 페이지 당 게시글 수.
+    paginate_by = BOARD_PER_PAGE  # 페이징 처리 설정.
     template_name = "board/board_list.html"
 
     def get_queryset(self):
-        # 검색 기능 구현을 위해 게시글을 가져오는 함수를 오버라이딩 한다.
-        search_type = self.request.GET.get('search_type', '')  # 검색 종류.
-        search_word = self.request.GET.get('search_word', '')  # 검색어.
-        if search_word:
+        search_type = self.request.GET.get('searchType', '')
+        search_word = self.request.GET.get('searchWord', '')
+        if search_type and search_word:
             if search_type == 'title':
                 return Board.objects.filter(title__icontains=search_word).order_by('-date')
             elif search_type == 'content':
