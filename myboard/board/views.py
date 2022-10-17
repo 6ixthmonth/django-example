@@ -44,14 +44,14 @@ class BoardListView(ListView):
     
 
 class BoardDetailView(DetailView):
-    """게시글 상세 뷰. model, template_name 속성 외에 추가로 작성할 속성은 없으며, 전달받은 기본 키 값(Board 객체의 number 필드)에 해당하는 Board 객체를 찾아서 반환한다."""
+    """게시글 상세 뷰 클래스."""
 
     model = Board
     template_name = "board/board_detail.html"
 
 
 class BoardCreateView(LoginRequiredMixin, CreateView):
-    """게시글 작성 뷰. 기본적으로 form_class, template_name, success_url 속성만 작성해도 되지만 파일 업로드 기능 등을 위해 추가 속성을 작성하고 함수를 오버라이딩 한다."""
+    """게시글 작성 뷰 클래스."""
 
     # LoginRequiredMixin: 이 클래스 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 Mixin 클래스. 로그인 하지 않고 요청을 시도하면 지정된 URL로 리다이렉트 한다.
     login_url = reverse_lazy('user:login')  # 로그인 하지 않은 사용자가 요청한 경우 리다이렉트 할 URL. 즉, 로그인 페이지의 URL을 작성한다. 기본 값은 '/accounts/login/'.
@@ -96,7 +96,7 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 
 
 class BoardUpdateView(UpdateView):
-    """게시글 수정 뷰."""
+    """게시글 수정 뷰 클래스."""
 
     model = Board  # model 또는 query_set 설정 필수.
     form_class = BoardForm  # fields 대신 사용.
@@ -113,7 +113,7 @@ class BoardUpdateView(UpdateView):
 
 
 class BoardDeleteView(DeleteView):
-    """게시글 삭제 뷰."""
+    """게시글 삭제 뷰 클래스."""
 
     model = Board
     success_url = reverse_lazy('board:list')
@@ -121,7 +121,7 @@ class BoardDeleteView(DeleteView):
 
 @login_required(login_url=reverse_lazy('user:login'))  # 이 함수 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 데코레이터.
 def reply_create(request, board_number):
-    """댓글 작성 뷰."""
+    """댓글 작성 뷰 함수."""
     if request.method == 'POST':
         content = request.POST['content']  # 양식을 통해 전달받은 댓글 내용.
         user = request.user  # 현재 로그인 한 유저.
@@ -130,12 +130,10 @@ def reply_create(request, board_number):
 
 
 def file_download(request, board_number):
-    """파일 다운로드 뷰."""
+    """파일 다운로드 뷰 함수."""
     board = Board.objects.get(pk=board_number)
     attached_file = board.attached_file  # 첨부 파일.
     original_file_name = board.original_file_name  # 원본 파일 이름.
-
     response = FileResponse(attached_file)  # 파일을 다운로드 하기 위한 응답 객체 생성.
     response['Content-Disposition'] = 'attachment; filename=%s' % original_file_name  # 원본 파일 이름 설정.
-
     return response
