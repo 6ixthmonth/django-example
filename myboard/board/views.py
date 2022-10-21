@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.http import FileResponse
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
@@ -15,39 +16,41 @@ BOARD_PER_PAGE = 10  # 게시글 목록 페이지에서 한 페이지 당 표시
 class BoardListView(ListView):
     """게시글 목록 뷰 클래스."""
 
-    paginate_by = BOARD_PER_PAGE  # 페이징 처리 설정.
+    paginate_by = BOARD_PER_PAGE  # 이 설정을 추가하면 Page 객체를 콘텍스트에 추가한다.
     template_name = "board/board_list.html"
 
     def get_queryset(self):
         search_type = self.request.GET.get('searchType', '')
         search_word = self.request.GET.get('searchWord', '')
+        result = None
         if search_type and search_word:
             if search_type == 'title':
-                return Board.objects.filter(title__icontains=search_word).order_by('-date')
+                result = Board.objects.filter(title__icontains=search_word).order_by('-date')
             elif search_type == 'content':
-                return Board.objects.filter(content__icontains=search_word).order_by('-date')
+                result = Board.objects.filter(content__icontains=search_word).order_by('-date')
             elif search_type == 'username':
-                return Board.objects.filter(user__username__icontains=search_word).order_by('-date')
+                result = Board.objects.filter(user__username__icontains=search_word).order_by('-date')
             else:
-                pass
-        return super().get_queryset()  # 검색을 요청한 경우가 아니면 모든 게시글을 가져와서 반환한다.
+                result = Board.objects.all()
+        else:
+            result = Board.objects.all()
+        return result.order_by('-date')
     
     def get_context_data(self, **kwargs):
-        # 검색 기능에 페이징 기능을 적용하기 위해 전달받은 검색 종류, 검색어를 다시 응답한다.
-        context = super(BoardListView, self).get_context_data(**kwargs)
-        search_type = self.request.GET.get('search_type', '')  # 전달받은 검색 종류를 가져온다.
-        search_word = self.request.GET.get('search_word', '')  # 전달받은 검색어를 가져온다.
+        context = super().get_context_data(**kwargs)
+        search_type = self.request.GET.get('searchType', '')
+        search_word = self.request.GET.get('searchWord', '')
         if search_type and search_word:
-            context['search_type'] = search_type  # 콘텍스트에 검색 종류를 입력하여 템플릿으로 전달한다.
-            context['search_word'] = search_word  # 콘텍스트에 검색어를 입력하여 템플릿으로 전달한다.
+            context['search_type'] = search_type
+            context['search_word'] = search_word
         return context
-    
+
 
 class BoardDetailView(DetailView):
     """게시글 상세 뷰 클래스."""
 
     model = Board
-    template_name = "board/board_detail.html"
+    # template_name = "board/board_detail.html"
 
 
 class BoardCreateView(LoginRequiredMixin, CreateView):
@@ -120,7 +123,7 @@ class BoardDeleteView(DeleteView):
 
 
 @login_required(login_url=reverse_lazy('user:login'))  # 이 함수 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 데코레이터.
-def reply_create(request, board_number):
+def create_reply(request, board_number):
     """댓글 작성 뷰 함수."""
     if request.method == 'POST':
         content = request.POST['content']  # 양식을 통해 전달받은 댓글 내용.
@@ -129,7 +132,7 @@ def reply_create(request, board_number):
     return redirect('board:detail', pk=board_number)  # 원본 게시글 상세 페이지로 리다이렉트 한다.
 
 
-def file_download(request, board_number):
+def download_file(request, board_number):
     """파일 다운로드 뷰 함수."""
     board = Board.objects.get(pk=board_number)
     attached_file = board.attached_file  # 첨부 파일.

@@ -3,7 +3,7 @@
 {% block title %}사용자 {{ user_type }}{% endblock title %}
 
 {% block content %}
-<div class="h1">사용자 {{ user_type }}</div>
+<div class="h1 text-primary">사용자 {{ user_type }}</div>
 <form method="post">
     {% csrf_token %}
     <table class="table">
