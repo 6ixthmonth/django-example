@@ -10,6 +10,6 @@ urlpatterns = [
     path('new/', views.BoardCreateView.as_view(), name='create'),  # 게시글 작성.
     path('<int:pk>/edit/', views.BoardUpdateView.as_view(), name='update'),  # 게시글 수정.
     path('<int:pk>/delete/', views.BoardDeleteView.as_view(), name='delete'),  # 게시글 삭제.
-    path('<int:board_number>/reply/new/', views.create_reply, name='reply_create'),  # 댓글 작성.
-    path('<int:board_number>/download/', views.download_file, name='download'),  # 파일 다운로드.
+    path('<int:board_id>/reply/new/', views.create_reply, name='reply_create'),  # 댓글 작성.
+    path('<int:board_id>/download/', views.download_file, name='download'),  # 파일 다운로드.
 ]

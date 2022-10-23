@@ -66,7 +66,7 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['board_type'] = '작성'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
+        context['form_type'] = '작성'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
         return context
 
     def form_valid(self, form):
@@ -90,8 +90,8 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
         form.save(commit=True)  # 양식 데이터를 데이터베이스에 저장한다.
 
         # return super().form_valid(form)  # success_url로 리다이렉트 하는 기존 구현.
-        # return redirect(reverse_lazy('board:detail', args=(form.instance.number,)))  # 저장 후 생성된 게시글 번호 PK값을 가지고 게시글 상세 페이지로 리다이렉트.
-        return redirect(reverse_lazy('board:detail', kwargs={'pk': form.instance.number}))  # 생성된 게시글의 상세 페이지로 리다이렉트.
+        # return redirect(reverse_lazy('board:detail', args=(form.instance.id,)))  # 저장 후 생성된 게시글 번호 PK값을 가지고 게시글 상세 페이지로 리다이렉트.
+        return redirect(reverse_lazy('board:detail', kwargs={'pk': form.instance.id}))  # 생성된 게시글의 상세 페이지로 리다이렉트.
 
     def form_invalid(self, form):
         # 전달받은 양식이 유효하지 않는 경우 실행되는 함수.
@@ -101,13 +101,12 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
 class BoardUpdateView(UpdateView):
     """게시글 수정 뷰 클래스."""
 
-    model = Board  # model 또는 query_set 설정 필수.
     form_class = BoardForm  # fields 대신 사용.
     template_name = "board/board_form.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['board_type'] = '수정'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
+        context['form_type'] = '수정'  # board_form.html 템플릿을 재활용하기 위해, 이 응답이 어떤 게시글 관련 동작을 위한 것인지 콘텍스트에 추가.
         return context
 
     def get_success_url(self) -> str:
@@ -123,18 +122,18 @@ class BoardDeleteView(DeleteView):
 
 
 @login_required(login_url=reverse_lazy('user:login'))  # 이 함수 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 데코레이터.
-def create_reply(request, board_number):
+def create_reply(request, board_id):
     """댓글 작성 뷰 함수."""
     if request.method == 'POST':
         content = request.POST['content']  # 양식을 통해 전달받은 댓글 내용.
         user = request.user  # 현재 로그인 한 유저.
-        Reply.objects.create(content=content, user=user, board_id=board_number)  # 전달받은 데이터를 이용해서 댓글 객체를 생성하고 데이터베이스에 저장한다.
-    return redirect('board:detail', pk=board_number)  # 원본 게시글 상세 페이지로 리다이렉트 한다.
+        Reply.objects.create(content=content, user=user, board_id=board_id)  # 전달받은 데이터를 이용해서 댓글 객체를 생성하고 데이터베이스에 저장한다.
+    return redirect('board:detail', pk=board_id)  # 원본 게시글 상세 페이지로 리다이렉트 한다.
 
 
-def download_file(request, board_number):
+def download_file(request, board_id):
     """파일 다운로드 뷰 함수."""
-    board = Board.objects.get(pk=board_number)
+    board = Board.objects.get(pk=board_id)
     attached_file = board.attached_file  # 첨부 파일.
     original_file_name = board.original_file_name  # 원본 파일 이름.
     response = FileResponse(attached_file)  # 파일을 다운로드 하기 위한 응답 객체 생성.

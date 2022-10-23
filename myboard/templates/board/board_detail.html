@@ -14,7 +14,7 @@
 <table class="table table-bordered mb-0">
     <thead>
         <tr class="table-dark text-center">
-            <th class="col-1">{{ board.number }}</th>
+            <th class="col-1">{{ board.id }}</th>
             <th class="col-6">{{ board.title }}</th>
             <th class="col-2">{{ board.user.username }}</th>
             <th class="col-3">{{ board.date }}</th>
@@ -28,7 +28,7 @@
         {% if board.attached_file %}
         <tr>
             <td colspan="4">
-                <a href="{% url 'board:download' board_number=board.number %}">
+                <a href="{% url 'board:download' board_id=board.id %}">
                     <img src="{% get_media_prefix %}{{ board.attached_file }}"><p>{{ board.original_file_name }}</p>
                 </a>
             </td>
@@ -53,7 +53,7 @@
 </table>
 {% endif %}
 <!-- 신규 댓글 작성 양식 -->
-<form action="{% url 'board:reply_create' board_number=board.number %}" method="post">
+<form action="{% url 'board:reply_create' board_id=board.id %}" method="post">
     {% csrf_token %}
     <table class="table">
         <tbody>
@@ -73,8 +73,8 @@
 <div class="row">
     <div class="col-6">
         {% if request.user == board.user %}
-        <a href="{% url 'board:update' pk=board.number %}" class="btn btn-warning">수정</a>
-        <form action="{% url 'board:delete' pk=board.number %}" method="post" class="d-inline">
+        <a href="{% url 'board:update' pk=board.id %}" class="btn btn-warning">수정</a>
+        <form action="{% url 'board:delete' pk=board.id %}" method="post" class="d-inline">
             {% csrf_token %}
             <input type="submit" class="btn btn-danger" value="삭제">
         </form>
