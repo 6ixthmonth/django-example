@@ -37,6 +37,7 @@ class BoardListView(ListView):
         return result.order_by('-date')
     
     def get_context_data(self, **kwargs):
+        # 요청을 통해 검색기준 및 검색어가 전달되었으면 다시 콘텍스트에 추가해서 응답한다.
         context = super().get_context_data(**kwargs)
         search_type = self.request.GET.get('searchType', '')
         search_word = self.request.GET.get('searchWord', '')
@@ -56,7 +57,10 @@ class BoardDetailView(DetailView):
 class BoardCreateView(LoginRequiredMixin, CreateView):
     """게시글 작성 뷰 클래스."""
 
-    # LoginRequiredMixin: 이 클래스 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 Mixin 클래스. 로그인 하지 않고 요청을 시도하면 지정된 URL로 리다이렉트 한다.
+    # LoginRequiredMixin
+    # 특정 클래스 뷰에 로그인 한 사용자만 접근할 수 있도록 만드는 Mixin 클래스.
+    # 로그인 하지 않고 요청을 시도하면 지정된 URL로 리다이렉트 한다.
+    # 반드시 상속하는 코드에서 가장 왼쪽에 작성해야 한다.
     login_url = reverse_lazy('user:login')  # 로그인 하지 않은 사용자가 요청한 경우 리다이렉트 할 URL. 즉, 로그인 페이지의 URL을 작성한다. 기본 값은 '/accounts/login/'.
     # redirect_field_name = 'next'  # 로그인 후 리다이렉트 할 URL 값을 담은 변수의 이름. 보통 로그인 후 이전 페이지로 이동하기 위해 사용한다. 기본 값은 'next'.
 
