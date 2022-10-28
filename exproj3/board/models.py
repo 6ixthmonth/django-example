@@ -19,7 +19,6 @@ class Board(models.Model):
         attr_name_max_length = 0
         for attr_name in vars(self).keys():
             attr_name_max_length = len(attr_name) if not attr_name.startswith("_") and len(attr_name) > attr_name_max_length else attr_name_max_length
-
         return f"""{{
             {'number':{attr_name_max_length}}: {self.number},
             {'title':{attr_name_max_length}}: "{shorten(self.title, width=20, placeholder='...')}",
@@ -47,7 +46,6 @@ class Reply(models.Model):
         attr_name_max_length = 0
         for attr_name in vars(self).keys():
             attr_name_max_length = len(attr_name) if not attr_name.startswith("_") and len(attr_name) > attr_name_max_length else attr_name_max_length
-
         return f"""{{
             {'id':{attr_name_max_length}}: {self.id},
             {'content':{attr_name_max_length}}: "{shorten(self.content, width=20, placeholder='...')}",
