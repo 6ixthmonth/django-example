@@ -13,7 +13,7 @@ class Board(models.Model):
     title = models.CharField(max_length=40)  # 제목.
     content = models.TextField(null=True, blank=True)  # 내용.
     date = models.DateTimeField(default=timezone.now)  # 작성일.
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # 작성자.
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # 작성자.
 
     def __str__(self) -> str:
         attr_name_max_length = 0
@@ -39,7 +39,7 @@ class Reply(models.Model):
 
     content = models.TextField()  # 내용.
     date = models.DateTimeField(default=timezone.now)  # 작성일.
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # 작성자.
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # 작성자.
     board = models.ForeignKey(Board, on_delete=models.CASCADE)  # 원본 게시글.
 
     def __str__(self) -> str:

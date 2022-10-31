@@ -8,7 +8,7 @@ def user_create(request):
 
 def user_login(request):
     """로그인 뷰 함수."""
-    context = """
+    content = """
         <h1>로그인</h1>
         <table>
             <tr>
@@ -20,8 +20,8 @@ def user_login(request):
                 <td><input type='password'></td>
             </tr>
             <tr>
-                <td colspan=2><input type='button' value='로그인'></td>
+                <td colspan='2'><input type='button' value='로그인'></td>
             </tr>
         </table>
     """
-    return HttpResponse(context)
+    return HttpResponse(content)
