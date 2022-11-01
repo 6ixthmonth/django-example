@@ -19,7 +19,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px 0px;
         }
 
@@ -31,7 +32,8 @@
             width: 500px;
         }
 
-        .user-nm-th, .board-date-th {
+        .user-nm-th,
+        .board-date-th {
             width: 200px;
         }
 
@@ -66,7 +68,9 @@
                 <td>{{ board.number }}</td>
                 <td>
                     <a href="{% url 'board:detail' board_number=board.number %}">{{ board.title|truncatechars:20 }}</a>
-                    {% if board.reply_set.all.count %}<span class="reply-count">[{{ board.reply_set.all.count }}]</span>{% endif %}
+                    {% if board.reply_set.all.count %}
+                    <span class="reply-count">[{{ board.reply_set.all.count}}]</span>
+                    {% endif %}
                 </td>
                 <td>{{ board.user.nm }}</td>
                 <td>
@@ -79,7 +83,9 @@
             </tr>
             {% endfor %}
             {% else %}
-            <tr><td colspan="4">게시글이 존재하지 않습니다.</td></tr>
+            <tr>
+                <td colspan="4">게시글이 존재하지 않습니다.</td>
+            </tr>
             {% endif %}
         </table>
         <input type="button" value="글 쓰기">
