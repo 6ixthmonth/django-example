@@ -23,5 +23,6 @@ def user_login(request):
                 <td colspan='2'><input type='button' value='로그인'></td>
             </tr>
         </table>
+        <a href='/user/join/'>사용자 등록</a>
     """
     return HttpResponse(content)

@@ -9,11 +9,11 @@ from user.models import User
 class Board(models.Model):
     """게시글을 표현하는 모델 클래스."""
 
-    number = models.BigAutoField(primary_key=True)  # 번호.
-    title = models.CharField(max_length=40)  # 제목.
-    content = models.TextField(null=True, blank=True)  # 내용.
-    date = models.DateTimeField(default=timezone.now)  # 작성일.
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # 작성자.
+    number = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=40)
+    content = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
         attr_name_max_length = 0
@@ -29,18 +29,18 @@ class Board(models.Model):
 
     def is_today_published(self) -> bool:
         """오늘 작성 여부를 반환하는 함수."""
-        board_date = self.date  # 게시글 작성일.
-        today = timezone.now()  # 현재 시간.
+        board_date = self.date
+        today = timezone.now()
         return (board_date.year == today.year) and (board_date.month == today.month) and (board_date.day == today.day)
 
 
 class Reply(models.Model):
     """댓글을 표현하는 모델 클래스."""
 
-    content = models.TextField()  # 내용.
-    date = models.DateTimeField(default=timezone.now)  # 작성일.
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)  # 작성자.
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)  # 원본 게시글.
+    content = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         attr_name_max_length = 0
