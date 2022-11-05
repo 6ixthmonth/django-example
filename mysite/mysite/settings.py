@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY: 각종 암호화 기능에 사용되는 KEY. 임의의 50글자로 이루어진 문자열이다.
 # 따로 설정하지 않는 경우, 기본 값은 빈 문자열('')이지만 그러면 프로젝트가 정상적으로 동작하지 않는다.
-SECRET_KEY = 'django-insecure-$r3m#9%3+v%k+h85$&@^e54vuoe0l$jhc)gs$v@nn92ul8f-vx'
+SECRET_KEY = 'django-insecure-abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+'
 
 # DEBUG: 디버그 모드를 켜고 끄는 논리 값. 디버그 모드가 켜져 있으면 웹 페이지에서 상세한 오류 메시지를 확인할 수 있다.
 # 이 값이 False인 경우, 하단의 ALLOWED_HOSTS의 값을 설정해야 한다.

@@ -1,3 +1,8 @@
+"""
+테스트 케이스 클래스를 작성하는 파일.
+"""
+
+
 import datetime
 
 from django.test import TestCase

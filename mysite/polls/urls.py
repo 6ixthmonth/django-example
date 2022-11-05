@@ -1,3 +1,8 @@
+"""
+이 앱의 URL 구성 파일.
+"""
+
+
 from django.urls import path
 
 from . import views

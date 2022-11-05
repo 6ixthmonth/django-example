@@ -1,3 +1,8 @@
+"""
+이 앱의 뷰를 작성하는 뷰 파일.
+"""
+
+
 # from django.http import HttpResponse
 # from django.template import loader
 # from django.http import Http404

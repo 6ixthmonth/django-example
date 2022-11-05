@@ -1,3 +1,8 @@
+"""
+모델 클래스를 작성하는 파일.
+"""
+
+
 from django.contrib import admin
 
 import datetime

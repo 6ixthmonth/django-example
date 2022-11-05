@@ -1,3 +1,8 @@
+"""
+모델 관리자 클래스를 작성하는 파일.
+"""
+
+
 from django.contrib import admin
 
 from .models import Choice, Question

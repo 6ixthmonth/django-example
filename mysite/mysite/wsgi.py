@@ -7,6 +7,7 @@ WSGI 객체가 호출될 수 있도록 'application'이라는 이름의 모듈 �
 https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 """
 
+
 import os
 
 from django.core.wsgi import get_wsgi_application

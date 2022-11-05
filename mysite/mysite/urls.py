@@ -15,9 +15,9 @@
     2. urlpatterns에 URL을 추가한다:  path('blog/', include('blog.urls'))
 
 
-이 파일은 최상위 URL 구성 파일(root URL configuration file, root URLconf file)로써 URL 패턴을 기록한다.
-URL 패턴은 클라이언트에서 요청을 보낼 때 사용할 URL과, 서버에서 이를 처리하고 응답할 뷰를 연결한다.
-URL 패턴은 path() 함수를 사용해서 작성하고 urlpatterns 목록 변수에 기록한다.
+이 파일은 최상위 URL 구성 파일(root URL configuration file, root URLconf file)로써 URL 양식을 기록한다.
+URL 양식은 클라이언트에서 요청을 보낼 때 사용할 URL과, 서버에서 이를 처리하고 응답할 뷰를 연결한다.
+URL 양식은 path() 함수를 사용해서 작성하고 urlpatterns 목록 변수에 등록한다.
 """
 
 
