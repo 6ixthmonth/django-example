@@ -1,9 +1,9 @@
 """
 이 프로젝트의 URL 구성 파일.
 
-`urlpatterns` 목록은 URL을 뷰로 보낸다. 더 많은 정보는 하단의 링크를 통해 확인할 수 있다.
+`urlpatterns` 목록은 URL을 뷰로 전달한다. 더 많은 정보는 하단의 링크를 통해 확인할 수 있다.
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
-예제:
+예시:
 함수 뷰
     1. import를 추가한다:  from my_app import views
     2. urlpatterns에 URL을 추가한다:  path('', views.home, name='home')
@@ -31,6 +31,6 @@ urlpatterns = [
     # polls 앱의 URL 구성 파일(polls 폴더에 위치한 urls.py 파일)을 통해 처리한다.
     path('polls/', include('polls.urls')),
 
-    # 관리자 페이지로 이동하는 URL 패턴.
+    # 관리자 앱 관련 URL 패턴.
     path('admin/', admin.site.urls),
 ]
