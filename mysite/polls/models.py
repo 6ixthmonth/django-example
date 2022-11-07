@@ -1,5 +1,9 @@
 """
 모델 클래스를 작성하는 파일.
+
+장고는 ORM(Object Relational Mapping) 방식으로 웹 애플리케이션과 데이터베이스를 연동하며, 이때 모델 클래스가 필요하다.
+모델 클래스는 데이터베이스의 테이블을 나타내며, 클래스 변수는 테이블의 필드를, 모델 클래스로 만들어진 객체는 테이블의 레코드를 나타낸다.
+모델을 알맞게 작성하고 데이터베이스 API 문법에 맞게 사용하면 자동으로 데이터베이스에 데이터를 조회하거나 입력하는 등의 조작을 할 수 있다.
 """
 
 
@@ -12,7 +16,7 @@ from django.utils import timezone
 
 
 class Question(models.Model):
-    """설문조사 앱에서 질문을 나타내는 모델."""
+    """질문을 나타내는 모델."""
 
     question_text = models.CharField(max_length=200)  # 질문 텍스트.
     pub_date = models.DateTimeField('date published')  # 질문 작성일.
@@ -37,7 +41,7 @@ class Question(models.Model):
 
 
 class Choice(models.Model):
-    """설문조사 앱에서 선택지를 나타내는 모델. 외래 키로 질문을 가진다."""
+    """선택지를 나타내는 모델. 외래 키로 질문을 가진다."""
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)  # 이 선택지와 연결된 원본 질문.
     choice_text = models.CharField(max_length=200)  #  선택지 텍스트.

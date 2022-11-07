@@ -1,5 +1,8 @@
 """
 모델 관리자 클래스를 작성하는 파일.
+
+이 파일을 통해서 특정 모델을 관리자 앱에 등록하기만 해도, 관리자 페이지에서 해당 모델에 대한 데이터베이스 조작이 가능하다.
+여기에 출력하고 싶은 열을 추가하거나, 필터 기능, 검색 기능 등을 설정하고 싶으면 모델 관리자 클래스를 작성해서 등록한다.
 """
 
 
@@ -8,8 +11,9 @@ from django.contrib import admin
 from .models import Choice, Question
 
 
-# admin.site.register(Question)  # 질문 모델을 관리자 페이지에 등록해서 직접 관리할 수 있게 만듦.
-# admin.site.register(Choice)  # 관리자 페이지에 선택지 모델을 등록해서 일일이 관리하는 것보다 질문과 함께 관리하는 게 더 효율적이므로 주석 처리.
+# 질문, 선택지 모델을 관리자 페이지에 등록한다.
+# admin.site.register(Question)
+# admin.site.register(Choice)
 
 
 # class ChoiceInline(admin.StackedInline):
@@ -34,20 +38,20 @@ class QuestionAdmin(admin.ModelAdmin):
 
     # 질문 데이터를 생성 또는 수정할 때, 다룰 필드들을 상세하게 설정.
     fieldsets = (
-        (None, {  # 첫 번째 필드 그룹 이름.
-            'fields': ('question_text',),  # 해당 그룹에서 다룰 필드들.
+        (None, {  # 첫 번째 필드셋 이름.
+            'fields': ('question_text',),  # 이 그룹에서 다룰 필드들.
         }),
-        ('Date information', {  # 두 번째 필드 그룹 이름.
-            'fields': ('pub_date',),  # 해당 그룹에서 다룰 필드들.
+        ('Date information', {  # 두 번째 필드셋 이름.
+            'fields': ('pub_date',),  # 이 그룹에서 다룰 필드들.
             'classes': ('collapse',),  # 이 그룹을 기본적으로 숨김 처리.
             'description': 'The date of published.',  # 이 그룹에 대한 설명.
         }),
     )
 
-    inlines = [ChoiceInline]  # 위에서 작성한 인라인 클래스를 등록.
+    inlines = [ChoiceInline]  # 위에서 작성한 선택지 인라인 클래스를 등록.
 
-    list_display = ('question_text', 'pub_date', 'was_published_recently')  # 질문 목록에서 표시할 열 설정.
-    list_filter = ['pub_date']  # 질문 목록에서 필터를 적용할 열 설정. 설정하면 지정된 열의 데이터를 빠르게 필터링 하기 위해 몇 가지 옵션을 제공해준다.
+    list_display = ('question_text', 'pub_date', 'was_published_recently')  # 질문 목록에서 출력할 열 설정.
+    list_filter = ['pub_date']  # 질문 목록에서 필터를 적용할 열 설정. 설정하면 지정된 열의 데이터를 빠르게 필터링 할 수 있도록 몇 가지 옵션을 제공해준다.
     search_fields = ['question_text']  # 문자열 필드에 대한 검색창을 추가. 여러 개의 필드를 추가하면 각각의 필드를 OR 조건으로 검색한다.
 
 
