@@ -28,11 +28,11 @@ class Question(models.Model):
     #     """최근 1일 이내 작성한 질문인지 검사하는 함수."""
     #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-    # 관리자 페이지에서 이 항목을 어떻게 표기할지 설정하는 데코레이터.
+    # 관리자 페이지에서 이 항목을 어떻게 표시할지 설정하는 데코레이터.
     @admin.display(
-        boolean=True,
-        ordering='pub_date',
-        description='Published recently?',
+        boolean=True,  # 논리형 데이터를 아이콘으로 표시할 지 여부를 설정.
+        ordering='pub_date',  # 정렬 시 사용할 기준 필드.
+        description='Published recently?',  # 이 항목에 대한 설명. 관리자 페이지에 표시한다.
     )
     def was_published_recently(self):
         """질문 작성일이 현재 시간보다 1일 전이면서 현재 시간 사이인지 검사하는 함수. 미래 시점으로 설정된 질문의 경우 False를 반환한다."""
