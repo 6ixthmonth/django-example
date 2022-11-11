@@ -26,11 +26,11 @@ from django.urls import include, path
 
 
 urlpatterns = [
-    # 투표 앱 관련 URL 패턴.
+    # 투표 앱 관련 URL 양식.
     # 'polls/*' 문자열과 같은 형태의 URL을 통해 요청이 발생하면,
     # polls 앱의 URL 구성 파일(polls 폴더에 위치한 urls.py 파일)을 통해 처리한다.
     path('polls/', include('polls.urls')),
 
-    # 관리자 앱 관련 URL 패턴.
+    # 관리자 앱 관련 URL 양식.
     path('admin/', admin.site.urls),
 ]

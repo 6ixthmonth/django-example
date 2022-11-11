@@ -1,5 +1,5 @@
 """
-polls 앱에서 사용하는 하위 URL 구성 파일. URL 패턴을 작성하는 파일이다.
+polls 앱에서 사용하는 하위 URL 구성 파일. URL 양식을 작성하는 파일이다.
 """
 
 
@@ -11,6 +11,7 @@ from . import views
 # 이 앱에서 사용할 이름공간(namespace) 설정.
 app_name = 'polls'
 
+# 함수 뷰 사용.
 # urlpatterns = [
 #     # ex: /polls/
 #     path('', views.index, name='index'),
@@ -22,7 +23,7 @@ app_name = 'polls'
 #     path('<int:question_id>/vote/', views.vote, name='vote'),
 # ]
 
-# 제네릭 뷰 사용.
+# 클래스 기반 뷰 사용.
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
