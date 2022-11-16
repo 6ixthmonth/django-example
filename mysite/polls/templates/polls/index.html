@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>투표 목록</title>
+    <title>설문조사 목록</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 </head>
@@ -11,7 +11,7 @@
 <body>
     <h1>설문조사 목록</h1>
 
-    {# 조건문을 통해 백엔드에서 전달된 데이터가 있는지 확인한다. #}
+    {# 전달된 데이터가 있는지 확인한다. #}
     {% if latest_question_list %}
     <ul>
         {# 반복문을 통해 전달된 데이터를 표시한다. #}

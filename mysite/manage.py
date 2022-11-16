@@ -13,7 +13,6 @@ import sys
 
 def main():
     """관리 작업을 실행한다."""
-
     # 환경 설정 파일(mysite 폴더에 있는 settings.py 파일)을 적용한다.
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 
