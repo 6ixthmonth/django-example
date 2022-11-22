@@ -11,19 +11,17 @@
 <body>
     <h1>설문조사 목록</h1>
 
-    {# 전달된 데이터가 있는지 확인한다. #}
     {% if latest_question_list %}
     <ul>
-        {# 반복문을 통해 전달된 데이터를 표시한다. #}
         {% for question in latest_question_list %}
 
-        {# URL을 직접 하드코딩하는 경우. #}
+        {# URL을 직접 작성하는 경우. #}
         {# <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> #}
 
-        {# url 템플릿 태그를 사용하는 경우. #}
+        {# url 템플릿 태그와 URL 양식 이름을 사용하는 경우. #}
         {# <li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li> #}
 
-        {# url 템플릿 태그와 앱의 이름공간을 사용하는 경우. #}
+        {# url 템플릿 태그와 URL 양식 이름, 앱의 이름공간을 사용하는 경우. #}
         <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
 
         {% endfor %}

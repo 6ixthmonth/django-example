@@ -8,9 +8,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 
 모든 설정들의 목록과 그 값들은 하단의 링크에서 확인할 수 있다.
 https://docs.djangoproject.com/en/4.0/ref/settings/
-
-
-설정 파일은 모듈 수준의 변수들을 가진 그저 파이썬 모듈일 뿐이다.
 """
 
 

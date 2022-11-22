@@ -3,12 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <title>투표 상세</title>
+    <title>설문조사 상세</title>
 </head>
 
 <body>
-    {# {{ question }} #}
-    <form action="{% url 'polls:vote' question.id%}" method="post">
+    <form action="{% url 'polls:vote' question.id %}" method="post">
         {% csrf_token %}
         <fieldset>
             <legend><h1>{{ question.question_text }}</h1></legend>
