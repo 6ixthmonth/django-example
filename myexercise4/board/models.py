@@ -16,6 +16,11 @@ class Board(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
+        # 관리자 페이지에서 출력할 때 사용.
+        return f"{shorten(self.title, width=20, placeholder='...')}"
+
+    def __repr__(self) -> str:
+        # 파이썬 셸에서 출력할 때 사용.
         attr_name_max_length = 0
         for attr_name in vars(self).keys():
             attr_name_max_length = len(attr_name) if not attr_name.startswith("_") and len(attr_name) > attr_name_max_length else attr_name_max_length
@@ -43,6 +48,11 @@ class Reply(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
+        # 관리자 페이지에서 출력할 때 사용.
+        return f"{shorten(self.content, width=20, placeholder='...')}"
+
+    def __repr__(self) -> str:
+        # 파이썬 셸에서 출력할 때 사용.
         attr_name_max_length = 0
         for attr_name in vars(self).keys():
             attr_name_max_length = len(attr_name) if not attr_name.startswith("_") and len(attr_name) > attr_name_max_length else attr_name_max_length

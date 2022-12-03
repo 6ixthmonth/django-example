@@ -9,4 +9,9 @@ class User(models.Model):
     nm = models.CharField(max_length=20)
 
     def __str__(self) -> str:
+        # 관리자 페이지에서 출력할 때 사용.
+        return f"{self.nm}"
+
+    def __repr__(self) -> str:
+        # 파이썬 셸에서 출력할 때 사용.
         return f"{{ id: '{self.id}', nm: '{self.nm}' }}"
