@@ -67,7 +67,7 @@
             <tr>
                 <td>{{ board.number }}</td>
                 <td>
-                    <a href="{% url 'board:detail' board_number=board.number %}">{{ board.title|truncatechars:20 }}</a>
+                    <a href="{% url 'board:detail' board.number %}">{{ board.title|truncatechars:20 }}</a>
                     {% if board.reply_set.all.count %}
                     <span class="reply-count">[{{ board.reply_set.all.count}}]</span>
                     {% endif %}
