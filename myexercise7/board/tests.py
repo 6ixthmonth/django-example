@@ -13,7 +13,7 @@ def create_board(title="검사 게시글", content=None, date=timezone.now(), us
     return Board.objects.create(title=title, content=content, date=date, user_id=user_id)
 
 
-def create_reply(content="", date=timezone.now(), user_id="tester", board_id=1) -> Reply:
+def create_reply(content="검사 댓글", date=timezone.now(), user_id="tester", board_id=1) -> Reply:
     """검사에 사용할 댓글을 생성하는 함수."""
     return Reply.objects.create(content=content, date=date, user_id=user_id, board_id=board_id)
 
