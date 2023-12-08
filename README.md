@@ -1,4 +1,4 @@
-# **django-example**
+# **practice-django**
 
 파이썬 기반의 웹 프레임워크인 장고를 사용한 예제 프로젝트 모음.
 
